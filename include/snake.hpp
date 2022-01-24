@@ -28,6 +28,7 @@ public:
     return body_points_;
   }
 
+  [[nodiscard]] auto head() const { return body_points_.back(); }
 
   auto increase_len() -> snake_t & {
     auto head = body_points_.back();
@@ -60,5 +61,7 @@ public:
     return out;
   }
 };
+
+bool is_collided_to_self(snake_t const &snake);
 
 }// namespace snk

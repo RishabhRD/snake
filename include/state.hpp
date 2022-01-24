@@ -14,11 +14,16 @@ class running_t {
   point_t fruit_pos_;
   std::chrono::time_point<std::chrono::system_clock> last_tick_;
   board_t board_;
+  std::size_t speed_;
 
 public:
-  explicit running_t(snake_t snake, point_t fruit_pos, board_t board)
+  explicit running_t(snake_t snake,
+    point_t fruit_pos,
+    board_t board,
+    std::size_t speed)
     : snake_(std::move(snake)), fruit_pos_(fruit_pos),
-      last_tick_(std::chrono::system_clock::now()), board_(board) {}
+      last_tick_(std::chrono::system_clock::now()), board_(board),
+      speed_(speed) {}
 
   auto snake() -> snake_t & { return snake_; }
   [[nodiscard]] auto snake() const -> const snake_t & { return snake_; }
@@ -32,14 +37,22 @@ public:
   }
 
   [[nodiscard]] auto board() const { return board_; }
+
+  [[nodiscard]] auto speed() const { return speed_; }
+  auto speed(std::size_t speed) { speed_ = speed; }
+
+  [[nodiscard]] auto score() const { return snake_.size(); }
 };
 
 class finished_t {
-  int score_;
+  std::size_t score_;
 
 public:
-  [[nodiscard]] int score() const { return score_; }
+  explicit finished_t(std::size_t score) : score_(score) {}
+  [[nodiscard]] auto score() const { return score_; }
 };
 
-using state_t = std::variant<init_t, running_t, finished_t>;
+class closed_t {};
+
+using state_t = std::variant<init_t, running_t, finished_t, closed_t>;
 }// namespace snk

@@ -3,7 +3,7 @@
 #include "snake.hpp"
 #include "direction.hpp"
 
-const suite snake = [] {
+const suite snake_suite = [] {
   snk::snake_t old_snake{ { { 3, 3 }, { 3, 4 } }, snk::direction_t::east };
 
   "increase length"_test = [=]() mutable {
@@ -36,5 +36,23 @@ const suite snake = [] {
       snk::direction_t::north };
     old_snake.set_cur_direction(snk::direction_t::north);
     expect(eq(old_snake.move(), expected_snake));
+  };
+
+  "collided to self"_test = [] {
+    snk::snake_t snake{ { { 1, 1 }, { 1, 2 }, { 2, 2 }, { 2, 1 }, { 1, 1 } },
+      snk::direction_t::east };
+    expect(eq(snk::is_collided_to_self(snake), true));
+  };
+
+  "not collided to self"_test = [] {
+    snk::snake_t snake{ { { 1, 1 }, { 1, 2 }, { 2, 2 }, { 2, 1 } },
+      snk::direction_t::east };
+    expect(eq(snk::is_collided_to_self(snake), false));
+  };
+
+  "head"_test = [] {
+    snk::snake_t snake{ { { 1, 1 }, { 1, 2 }, { 2, 2 }, { 2, 1 } },
+      snk::direction_t::east };
+    expect(eq(snake.head(), snk::point_t{ 2, 1 }));
   };
 };

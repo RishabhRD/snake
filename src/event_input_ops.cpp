@@ -21,6 +21,8 @@ auto to_input(sf::Event const &event) -> tl::optional<input_t> {
     case sf::Keyboard::Right:
     case sf::Keyboard::D:
       return input_t::right;
+    case sf::Keyboard::Escape:
+      return input_t::quit;
     default:
       return tl::nullopt;
     }
