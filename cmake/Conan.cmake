@@ -1,3 +1,16 @@
+function(package p_name)
+  conan_cmake_run(
+    REQUIRES
+    ${CONAN_EXTRA_REQUIRES}
+    ${p_name}
+    OPTIONS
+    ${CONAN_EXTRA_OPTIONS}
+    BASIC_SETUP
+    CMAKE_TARGETS # individual targets to link to
+    BUILD
+    missing)
+endfunction()
+
 macro(run_conan)
   # Download automatically, you can also just copy the conan.cmake file
   if(NOT EXISTS "${CMAKE_BINARY_DIR}/conan.cmake")
@@ -13,14 +26,6 @@ macro(run_conan)
     URL
     https://api.bintray.com/conan/bincrafters/public-conan)
 
-  conan_cmake_run(
-    REQUIRES
-    ${CONAN_EXTRA_REQUIRES}
-    boost-ext-ut/1.1.8
-    OPTIONS
-    ${CONAN_EXTRA_OPTIONS}
-    BASIC_SETUP
-    CMAKE_TARGETS # individual targets to link to
-    BUILD
-    missing)
+  package(boost-ext-ut/1.1.8)
+  package(sfml/2.5.1)
 endmacro()

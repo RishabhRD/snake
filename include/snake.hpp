@@ -41,6 +41,7 @@ public:
   }
 
   auto set_cur_direction(direction_t dir) -> snake_t & {
+    if(dir == opposite_direction(cur_direction_)) return *this;
     cur_direction_ = dir;
     return *this;
   }

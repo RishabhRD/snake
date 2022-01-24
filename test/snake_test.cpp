@@ -25,8 +25,14 @@ suite snake = [] {
       eq(old_snake.set_cur_direction(snk::direction_t::north), expected_snake));
   };
 
+  "change to opposite direction"_test = [=]() mutable {
+    snk::snake_t expected_snake{ old_snake };
+    old_snake.set_cur_direction(snk::direction_t::west);
+    expect(eq(expected_snake, old_snake));
+  };
+
   "move after changing direction"_test = [=]() mutable {
-    snk::snake_t expected_snake{ {{3, 4}, {2, 4}},
+    snk::snake_t expected_snake{ { { 3, 4 }, { 2, 4 } },
       snk::direction_t::north };
     old_snake.set_cur_direction(snk::direction_t::north);
     expect(eq(old_snake.move(), expected_snake));
