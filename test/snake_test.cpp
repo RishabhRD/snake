@@ -3,7 +3,7 @@
 #include "snake.hpp"
 #include "direction.hpp"
 
-suite snake = [] {
+const suite snake = [] {
   snk::snake_t old_snake{ { { 3, 3 }, { 3, 4 } }, snk::direction_t::east };
 
   "increase length"_test = [=]() mutable {

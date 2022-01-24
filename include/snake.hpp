@@ -20,11 +20,13 @@ public:
     : body_points_(body_points), cur_direction_(dir) {}
 
 
-  std::size_t size() const { return body_points_.size(); }
+  [[nodiscard]] std::size_t size() const { return body_points_.size(); }
 
-  direction_t cur_direction() const { return cur_direction_; }
+  [[nodiscard]] direction_t cur_direction() const { return cur_direction_; }
 
-  const std::list<point_t> &body_points() const { return body_points_; }
+  [[nodiscard]] const std::list<point_t> &body_points() const {
+    return body_points_;
+  }
 
 
   auto increase_len() -> snake_t & {
@@ -41,7 +43,7 @@ public:
   }
 
   auto set_cur_direction(direction_t dir) -> snake_t & {
-    if(dir == opposite_direction(cur_direction_)) return *this;
+    if (dir == opposite_direction(cur_direction_)) return *this;
     cur_direction_ = dir;
     return *this;
   }

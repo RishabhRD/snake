@@ -12,7 +12,7 @@ auto to_point(direction_t dir) -> point_t {
   case direction_t::west:
     return { 0, static_cast<std::size_t>(-1) };
   }
-  throw "Unreachable";
+  return { 0, 0 };// unreachable
 }
 
 point_t next_point_in_direction(point_t cur_point, direction_t cur_dir) {

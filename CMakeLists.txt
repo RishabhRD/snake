@@ -28,11 +28,11 @@ include(cmake/CompilerWarnings.cmake)
 set_project_warnings(project_warnings)
 
 # sanitizer options if supported by compiler
-# include(cmake/Sanitizers.cmake)
-# enable_sanitizers(project_options)
+include(cmake/Sanitizers.cmake)
+enable_sanitizers(project_options)
 
 # # allow for static analysis options
-# include(cmake/StaticAnalyzers.cmake)
+include(cmake/StaticAnalyzers.cmake)
 
 option(BUILD_SHARED_LIBS "Enable compilation of shared libraries" OFF)
 option(ENABLE_TESTING "Enable Test Builds" ON)
@@ -75,6 +75,5 @@ if(ENABLE_TESTING)
   enable_testing()
   add_subdirectory(test)
 endif()
-
 
 add_subdirectory(src)
