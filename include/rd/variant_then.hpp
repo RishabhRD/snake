@@ -1,6 +1,7 @@
 #pragma once
 
-#include "tl/optional.hpp"
+#include <variant>
+#include <functional>
 
 namespace rd {
 

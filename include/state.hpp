@@ -20,10 +20,10 @@ public:
   explicit running_t(snake_t snake,
     point_t fruit_pos,
     board_t board,
-    std::size_t speed)
-    : snake_(std::move(snake)), fruit_pos_(fruit_pos),
-      last_tick_(std::chrono::system_clock::now()), board_(board),
-      speed_(speed) {}
+    std::size_t speed,
+    std::chrono::time_point<std::chrono::system_clock> last_tick)
+    : snake_(std::move(snake)), fruit_pos_(fruit_pos), last_tick_(last_tick),
+      board_(board), speed_(speed) {}
 
   auto snake() -> snake_t & { return snake_; }
   [[nodiscard]] auto snake() const -> const snake_t & { return snake_; }

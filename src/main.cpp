@@ -119,8 +119,11 @@ int main() {
   snk::board_t board{ num_tiles_y, num_tiles_x };
   snk::snake_t init_snake{ { { 9, 10 }, { 10, 10 }, { 11, 10 } },
     snk::direction_t::east };
-  snk::state_t state{ snk::running_t{
-    std::move(init_snake), init_fruit_position, board, speed } };
+  snk::state_t state{ snk::running_t{ std::move(init_snake),
+    init_fruit_position,
+    board,
+    speed,
+    std::chrono::system_clock::now() } };
 
   sf::RenderWindow window(
     sf::VideoMode(win_size_x, win_size_y), "Snake", sf::Style::None);
