@@ -4,22 +4,22 @@
 #include "direction.hpp"
 
 const suite snake_suite = [] {
-  snk::snake_t old_snake{ { { 3, 3 }, { 3, 4 } }, snk::direction_t::east };
+  snk::snake_t old_snake{ { { 3, 3 }, { 4, 3 } }, snk::direction_t::east };
 
   "increase length"_test = [=]() mutable {
-    snk::snake_t expected_snake{ { { 3, 3 }, { 3, 4 }, { 3, 5 } },
+    snk::snake_t expected_snake{ { { 3, 3 }, { 4, 3 }, { 5, 3 } },
       snk::direction_t::east };
     expect(eq(old_snake.increase_len(), expected_snake));
   };
 
   "move"_test = [=]() mutable {
-    snk::snake_t expected_snake{ { { 3, 4 }, { 3, 5 } },
+    snk::snake_t expected_snake{ { { 4, 3 }, { 5, 3 } },
       snk::direction_t::east };
     expect(eq(old_snake.move(), expected_snake));
   };
 
   "change direction"_test = [=]() mutable {
-    snk::snake_t expected_snake{ { { 3, 3 }, { 3, 4 } },
+    snk::snake_t expected_snake{ { { 3, 3 }, { 4, 3 } },
       snk::direction_t::north };
     expect(
       eq(old_snake.set_cur_direction(snk::direction_t::north), expected_snake));
@@ -32,7 +32,7 @@ const suite snake_suite = [] {
   };
 
   "move after changing direction"_test = [=]() mutable {
-    snk::snake_t expected_snake{ { { 3, 4 }, { 2, 4 } },
+    snk::snake_t expected_snake{ { { 4, 3 }, { 4, 2 } },
       snk::direction_t::north };
     old_snake.set_cur_direction(snk::direction_t::north);
     expect(eq(old_snake.move(), expected_snake));

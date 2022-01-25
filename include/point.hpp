@@ -4,8 +4,8 @@
 
 namespace snk {
 struct point_t {
-  std::size_t x{};// X-AXIS: |
-  std::size_t y{};// Y-AXIS: -
+  std::size_t x{};
+  std::size_t y{};
 
   friend auto operator<=>(const point_t &, const point_t &) = default;
   friend std::ostream &operator<<(std::ostream &os, point_t p) {
