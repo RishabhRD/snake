@@ -1,20 +1,15 @@
-#include <SFML/Window/WindowStyle.hpp>
-#include "board.hpp"
 #include "board_point_ops.hpp"
 #include "event_input_ops.hpp"
-#include "input.hpp"
 #include "point.hpp"
 #include "snake.hpp"
 #include "state.hpp"
 #include "state_ops.hpp"
 #include "input_handler.hpp"
-#include <iostream>
+#include "rd/variant_then.hpp"
+#include "rd/overload.hpp"
 #include <algorithm>
 #include <SFML/Graphics.hpp>
-#include <random_point.hpp>
-#include <rd/overload.hpp>
-#include <variant>
-#include <rd/variant_then.hpp>
+#include <SFML/Window/WindowStyle.hpp>
 
 
 class pixel_converter_t {
