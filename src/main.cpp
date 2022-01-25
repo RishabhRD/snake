@@ -94,20 +94,6 @@ void draw(sf::RenderWindow &window,
   std::visit(std::move(draw_states), game_state);
 }
 
-void wait_for_timeperiod(snk::state_t const & /*game_state*/) {
-  /* rd::overload sleep{ [](snk::running_t const &state) { */
-  /*                      std::this_thread::sleep_for( */
-  /*                        snk::to_time_period(state.speed()) / 2); */
-  /*                    }, */
-  /*   [](auto const &) { */
-  /*     using namespace std::literals; */
-  /*     std::this_thread::sleep_for(100ms); */
-  /*   } }; */
-  /* visit(std::move(sleep), game_state); */
-  using namespace std::literals;
-  std::this_thread::sleep_for(50ms);
-}
-
 int main() {
   constexpr static std::size_t num_tiles_x = 20;
   constexpr static std::size_t num_tiles_y = 20;
@@ -137,7 +123,8 @@ int main() {
     if (rd::is<snk::running_t>(state)) snk::check_collision(state);
     draw(
       window, state, pixel_converter_t{ scaling_factor_x, scaling_factor_y });
-    wait_for_timeperiod(state);
+    using namespace std::literals;
+    std::this_thread::sleep_for(50ms);
     window.display();
   }
   return 0;
