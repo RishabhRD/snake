@@ -6,11 +6,11 @@ auto to_point(direction_t dir) -> point_t {
   case direction_t::south:
     return { 0, 1 };
   case direction_t::north:
-    return { 0, static_cast<std::size_t>(-1) };
+    return { 0, -1 };
   case direction_t::east:
     return { 1, 0 };
   case direction_t::west:
-    return { static_cast<std::size_t>(-1), 0 };
+    return { -1, 0 };
   }
   return { 0, 0 };// unreachable
 }

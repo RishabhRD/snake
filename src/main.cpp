@@ -13,11 +13,11 @@
 
 
 class pixel_converter_t {
-  std::size_t scaling_factor_x_;
-  std::size_t scaling_factor_y_;
+  int scaling_factor_x_;
+  int scaling_factor_y_;
 
 public:
-  pixel_converter_t(std::size_t scaling_factor_x, std::size_t scaling_factor_y)
+  pixel_converter_t(int scaling_factor_x, int scaling_factor_y)
     : scaling_factor_x_(scaling_factor_x), scaling_factor_y_(scaling_factor_y) {
   }
 
@@ -46,20 +46,10 @@ void draw_tile(snk::point_t const position,
   window.draw(rect);
 }
 
-void draw_tile_in_board(snk::point_t const position,
-  sf::Color const &color,
-  snk::board_t const board,
-  sf::RenderWindow &window,
-  pixel_converter_t const to_pixel) {
-  auto const point_in_board = snk::in_board(position, board);
-  draw_tile(point_in_board, color, window, to_pixel);
-}
-
 void draw_snake_head(sf::RenderWindow &window,
   snk::running_t const &state,
   pixel_converter_t const to_pixel) {
-  draw_tile_in_board(
-    state.snake().head(), sf::Color::Blue, state.board(), window, to_pixel);
+  draw_tile(state.snake().head(), sf::Color::Blue, window, to_pixel);
 }
 
 void draw_snake_body(sf::RenderWindow &window,
@@ -68,8 +58,7 @@ void draw_snake_body(sf::RenderWindow &window,
   std::for_each(begin(state.snake().body_points()),
     std::prev(end(state.snake().body_points())),
     [&](auto body_point) {
-      draw_tile_in_board(
-        body_point, sf::Color::Green, state.board(), window, to_pixel);
+      draw_tile(body_point, sf::Color::Green, window, to_pixel);
     });
 }
 
@@ -83,8 +72,7 @@ void draw_snake(sf::RenderWindow &window,
 void draw_fruit(sf::RenderWindow &window,
   snk::running_t const &state,
   pixel_converter_t const to_pixel) {
-  draw_tile_in_board(
-    state.fruit_pos(), sf::Color::Red, state.board(), window, to_pixel);
+  draw_tile(state.fruit_pos(), sf::Color::Red, window, to_pixel);
 }
 
 void draw(sf::RenderWindow &window,
@@ -130,6 +118,7 @@ int main() {
   while (window.isOpen()) {// NOLINT
     poll_events(window, state);
     if (rd::is<snk::closed_t>(state)) window.close();
+    // TODO: eating when snake body is forward is problematic
     rd::then<snk::running_t>(state, snk::try_moving_snake, snk::try_eating);
     if (rd::is<snk::running_t>(state)) snk::check_collision(state);
     draw(

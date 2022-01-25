@@ -5,6 +5,9 @@ namespace snk {
 auto handle_quit(snk::state_t &state) -> void { state = snk::closed_t{}; }
 
 auto handle_dir(snk::running_t &state, snk::input_t input) -> void {
+  // TODO: need to enque these directions somewhere and then process them (as it
+  // can lead to snake to collide if someone gives left, down and up in one
+  // poll)
   state.snake().set_cur_direction(*snk::to_direction(input));
 }
 

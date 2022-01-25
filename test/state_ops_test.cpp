@@ -74,7 +74,7 @@ suite const state_machine_suite = [] {
   "state after eating"_test = [] {
     snk::snake_t init_snake{ { { 3, 3 }, { 4, 3 }, { 5, 3 } },
       snk::direction_t::east };
-    snk::board_t board{ 10, 10 };
+    snk::board_t const board{ 10, 10 };
     snk::running_t state{ std::move(init_snake),
       { 6, 3 },
       board,
@@ -84,42 +84,14 @@ suite const state_machine_suite = [] {
     mock_fruit_generator next_fruit{ { 6, 5 }, { 5, 5 } };
     snk::snake_t &snake = state.snake();
 
-    snake.move();
+    snake.move(board);
     snake.set_cur_direction(snk::direction_t::south);
     snk::try_eating(state, next_fruit);
     expect(eq(state.fruit_pos(), snk::point_t{ 6, 5 }));
     expect(eq(snake.size(), 4));
     expect(eq(snake.head(), snk::point_t{ 6, 4 }));
 
-    snake.move();
-    snake.set_cur_direction(snk::direction_t::west);
-    snk::try_eating(state, next_fruit);
-    expect(eq(state.fruit_pos(), snk::point_t{ 5, 5 }));
-    expect(eq(snake.size(), 5));
-    expect(eq(snake.head(), snk::point_t{ 5, 5 }));
-  };
-
-  "eating out of board food"_test = [] {
-    snk::snake_t init_snake{ { { 3, 3 }, { 4, 3 }, { 5, 3 } },
-      snk::direction_t::east };
-    snk::board_t board{ 10, 10 };
-    snk::running_t state{ std::move(init_snake),
-      { 6, 3 },
-      board,
-      10,
-      std::chrono::system_clock::now() };
-
-    mock_fruit_generator next_fruit{ { 16, 5 }, { 5, 5 } };
-    snk::snake_t &snake = state.snake();
-
-    snake.move();
-    snake.set_cur_direction(snk::direction_t::south);
-    snk::try_eating(state, next_fruit);
-    expect(eq(state.fruit_pos(), snk::point_t{ 16, 5 }));
-    expect(eq(snake.size(), 4));
-    expect(eq(snake.head(), snk::point_t{ 6, 4 }));
-
-    snake.move();
+    snake.move(board);
     snake.set_cur_direction(snk::direction_t::west);
     snk::try_eating(state, next_fruit);
     expect(eq(state.fruit_pos(), snk::point_t{ 5, 5 }));
@@ -137,7 +109,7 @@ suite const state_machine_suite = [] {
       10,
       std::chrono::system_clock::now() };
 
-    mock_fruit_generator next_fruit{ { 16, 5 }, { 5, 5 } };
+    mock_fruit_generator next_fruit{ { 6, 5 }, { 5, 5 } };
     snk::snake_t &snake = state.snake();
 
     snake.set_cur_direction(snk::direction_t::south);

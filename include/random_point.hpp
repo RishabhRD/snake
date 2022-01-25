@@ -9,7 +9,7 @@ namespace snk {
 class random_point_generator_t {
   std::random_device rd;
   std::mt19937 mt;
-  std::uniform_int_distribution<std::size_t> dist;
+  std::uniform_int_distribution<int> dist;
 
 public:
   random_point_generator_t() : mt(rd()) {}

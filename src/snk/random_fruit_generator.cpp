@@ -6,16 +6,13 @@ namespace snk {
 auto random_point = snk::random_point_generator_t{};// NOLINT
 
 auto random_fruit_for(snk::running_t const &state) -> snk::point_t {
-  auto pnt = random_point();
+  auto pnt = snk::in_board(random_point(), state.board());
   while (true) {
     if (std::none_of(begin(state.snake().body_points()),
           end(state.snake().body_points()),
-          [pnt, &state](auto p) {
-            return snk::in_board(p, state.board())
-                   == snk::in_board(pnt, state.board());
-          }))
+          [pnt](auto p) { return p == pnt; }))
       break;
-    pnt = random_point();
+    pnt = snk::in_board(random_point(), state.board());
   }
   return pnt;
 }

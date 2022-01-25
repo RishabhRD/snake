@@ -3,15 +3,15 @@
 #include <cstddef>
 namespace snk {
 class board_t {
-  std::size_t width_{};
-  std::size_t height_{};
+  int width_{};
+  int height_{};
 
 public:
-  explicit board_t(std::size_t width, std::size_t height)// NOLINT
+  explicit board_t(int width, int height)// NOLINT
     : width_(width), height_(height) {}
 
-  [[nodiscard]] std::size_t width() const { return width_; }
+  [[nodiscard]] int width() const { return width_; }
 
-  [[nodiscard]] std::size_t height() const { return height_; }
+  [[nodiscard]] int height() const { return height_; }
 };
 }// namespace snk

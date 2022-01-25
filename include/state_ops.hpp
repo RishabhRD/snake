@@ -19,7 +19,7 @@ struct try_moving_snake_t {
     auto const movement_time_period = to_time_period(state.speed());
     auto const time_passed = cur_time - state.last_tick();
     if (time_passed >= movement_time_period) {
-      state.snake().move();
+      state.snake().move(state.board());
       state.last_tick(cur_time);
     }
   }
@@ -32,9 +32,8 @@ inline try_moving_snake_t const try_moving_snake{};
 
 struct try_eating_t {
   void operator()(snk::running_t &state, auto &&fruit_generator) const {
-    if (snk::in_board(state.snake().head(), state.board())
-        == snk::in_board(state.fruit_pos(), state.board())) {
-      state.snake().increase_len();
+    if (state.snake().head() == state.fruit_pos()) {
+      state.snake().increase_len(state.board());
       state.fruit_pos(std::invoke(
         std::forward<decltype(fruit_generator)>(fruit_generator), state));
     }

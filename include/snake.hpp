@@ -1,5 +1,7 @@
 #pragma once
 
+#include "board.hpp"
+#include "board_point_ops.hpp"
 #include "ostream"
 #include "direction.hpp"
 #include "point.hpp"
@@ -30,26 +32,28 @@ public:
 
   [[nodiscard]] auto head() const { return body_points_.back(); }
 
-  auto increase_len() -> snake_t & {
+  auto increase_len(board_t const board) -> snake_t & {
     auto head = body_points_.back();
-    body_points_.push_back(next_point_in_direction(head, cur_direction_));
+    body_points_.push_back(
+      snk::in_board(next_point_in_direction(head, cur_direction_), board));
     return *this;
   }
 
-  auto move() -> snake_t & {
+  auto move(board_t const board) -> snake_t & {
     auto head = body_points_.back();
-    body_points_.push_back(next_point_in_direction(head, cur_direction_));
+    body_points_.push_back(
+      snk::in_board(next_point_in_direction(head, cur_direction_), board));
     body_points_.pop_front();
     return *this;
   }
 
-  auto set_cur_direction(direction_t dir) -> snake_t & {
+  auto set_cur_direction(direction_t const dir) -> snake_t & {
     if (dir == opposite_direction(cur_direction_)) return *this;
     cur_direction_ = dir;
     return *this;
   }
 
-  friend bool operator==(const snake_t &, const snake_t &) = default;
+  friend bool operator==(snake_t const &, snake_t const &) = default;
 
   friend std::ostream &operator<<(std::ostream &out, snake_t const &snake) {
     out << '[';
