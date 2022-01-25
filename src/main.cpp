@@ -42,8 +42,8 @@ public:
   }
 
   [[nodiscard]] sf::Vector2f operator()(snk::point_t point) const {
-    return { static_cast<float>(point.x * scaling_factor_x_),
-      static_cast<float>(point.y * scaling_factor_y_) };
+    return { static_cast<float>(point.y * scaling_factor_y_),
+      static_cast<float>(point.x * scaling_factor_x_) };
   }
 };
 
