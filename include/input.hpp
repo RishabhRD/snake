@@ -1,11 +1,11 @@
 #pragma once
 #include "direction.hpp"
-#include "tl/optional.hpp"
+#include <optional>
 
 namespace snk {
 enum class input_t { left, right, up, down, quit };
 
-inline auto to_direction(input_t input) -> tl::optional<direction_t> {
+inline auto to_direction(input_t input) -> std::optional<direction_t> {
   switch (input) {
   case input_t::left:
     return direction_t::west;
@@ -16,7 +16,7 @@ inline auto to_direction(input_t input) -> tl::optional<direction_t> {
   case input_t::down:
     return direction_t::south;
   default:
-    return tl::nullopt;
+    return std::nullopt;
   }
 }
 }// namespace snk

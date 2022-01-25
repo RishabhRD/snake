@@ -1,7 +1,7 @@
 #include "event_input_ops.hpp"
 
 namespace snk {
-auto to_input(sf::Event const &event) -> tl::optional<input_t> {
+auto to_input(sf::Event const &event) -> std::optional<input_t> {
   if (event.type == sf::Event::Closed) return input_t::quit;
   if (event.type == sf::Event::KeyPressed) {
     switch (event.key.code) {// NOLINT
@@ -24,10 +24,10 @@ auto to_input(sf::Event const &event) -> tl::optional<input_t> {
     case sf::Keyboard::Escape:
       return input_t::quit;
     default:
-      return tl::nullopt;
+      return std::nullopt;
     }
   } else {
-    return tl::nullopt;
+    return std::nullopt;
   }
 }
 }// namespace snk
