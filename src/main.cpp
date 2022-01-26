@@ -118,15 +118,16 @@ auto main() -> int {
   while (window.isOpen()) {// NOLINT
     poll_events(window, game_state);
     if (rd::is<snk::closed_t>(game_state)) window.close();
-    snk::after_time_period(game_state, [&window](snk::state_t &state) {
+    snk::after_time_period(game_state, [](snk::state_t &state) {
       rd::then<snk::running_t>(state, snk::try_eating);
       snk::process_queued_directions(state);
       rd::then<snk::running_t>(state, snk::move_snake);
       if (rd::is<snk::running_t>(state)) snk::check_collision(state);
-      draw(
-        window, state, pixel_converter_t{ scaling_factor_x, scaling_factor_y });
-      window.display();
     });
+    draw(window,
+      game_state,
+      pixel_converter_t{ scaling_factor_x, scaling_factor_y });
+    window.display();
     using namespace std::literals;
     std::this_thread::sleep_for(50ms);
   }
