@@ -22,18 +22,18 @@ public:
     : scaling_factor_x_(scaling_factor_x), scaling_factor_y_(scaling_factor_y) {
   }
 
-  [[nodiscard]] sf::Vector2f operator()(snk::point_t point) const {
+  [[nodiscard]] auto operator()(snk::point_t point) const -> sf::Vector2f {
     return { static_cast<float>(point.x * scaling_factor_x_),
       static_cast<float>(point.y * scaling_factor_y_) };
   }
 };
 
 
-void poll_events(sf::RenderWindow &window, snk::state_t &state) {
+auto poll_events(sf::RenderWindow &window, snk::state_t &game_state) {
   sf::Event event{};
   while (window.pollEvent(event)) {
     auto opt_input = snk::to_input(event);
-    if (opt_input) snk::handle_input(*opt_input, state);
+    if (opt_input) snk::handle_input(*opt_input, game_state);
   }
 }
 
@@ -80,8 +80,8 @@ void draw(sf::RenderWindow &window,
   snk::running_t const &state,
   pixel_converter_t const to_pixel) {
   window.clear(sf::Color::Black);
-  draw_snake(window, state, to_pixel);
   draw_fruit(window, state, to_pixel);
+  draw_snake(window, state, to_pixel);
 }
 
 void draw(sf::RenderWindow &window,
@@ -94,7 +94,7 @@ void draw(sf::RenderWindow &window,
   std::visit(std::move(draw_states), game_state);
 }
 
-int main() {
+auto main() -> int {
   constexpr static std::size_t num_tiles_x = 20;
   constexpr static std::size_t num_tiles_y = 20;
   constexpr static std::size_t scaling_factor_x = 30;
@@ -107,7 +107,7 @@ int main() {
   snk::board_t board{ num_tiles_y, num_tiles_x };
   snk::snake_t init_snake{ { { 9, 10 }, { 10, 10 }, { 11, 10 } },
     snk::direction_t::east };
-  snk::state_t state{ snk::running_t{ std::move(init_snake),
+  snk::state_t game_state{ snk::running_t{ std::move(init_snake),
     init_fruit_position,
     board,
     speed,
@@ -116,16 +116,19 @@ int main() {
   sf::RenderWindow window(
     sf::VideoMode(win_size_x, win_size_y), "Snake", sf::Style::None);
   while (window.isOpen()) {// NOLINT
-    poll_events(window, state);
-    if (rd::is<snk::closed_t>(state)) window.close();
-    // TODO: eating when snake body is forward is problematic
-    rd::then<snk::running_t>(state, snk::try_moving_snake, snk::try_eating);
-    if (rd::is<snk::running_t>(state)) snk::check_collision(state);
-    draw(
-      window, state, pixel_converter_t{ scaling_factor_x, scaling_factor_y });
+    poll_events(window, game_state);
+    if (rd::is<snk::closed_t>(game_state)) window.close();
+    snk::after_time_period(game_state, [&window](snk::state_t &state) {
+      rd::then<snk::running_t>(state, snk::try_eating);
+      snk::process_queued_directions(state);
+      rd::then<snk::running_t>(state, snk::move_snake);
+      if (rd::is<snk::running_t>(state)) snk::check_collision(state);
+      draw(
+        window, state, pixel_converter_t{ scaling_factor_x, scaling_factor_y });
+      window.display();
+    });
     using namespace std::literals;
     std::this_thread::sleep_for(50ms);
-    window.display();
   }
   return 0;
 }

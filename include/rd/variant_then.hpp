@@ -12,6 +12,12 @@ auto then(auto &variant, Func &&...func) {
   if (data != nullptr) (std::invoke(std::forward<Func>(func), *data), ...);
 }
 
+template<typename T, typename... Func>
+auto then(auto const &variant, Func &&...func) {
+  auto data = std::get_if<T>(&variant);
+  if (data != nullptr) (std::invoke(std::forward<Func>(func), *data), ...);
+}
+
 template<typename T> auto is(auto &variant) {
   return std::get_if<T>(&variant) != nullptr;
 }

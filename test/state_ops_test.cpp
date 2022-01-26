@@ -119,41 +119,43 @@ suite const state_machine_suite = [] {
     expect(eq(snake.head(), snk::point_t{ 5, 3 }));
   };
 
-  "movement after time passed"_test = [] {
-    auto const speed = 10;
-    auto const time_period = snk::to_time_period(speed);
-    auto const init_time = std::chrono::system_clock::now();
-    mock_now now{
-      init_time, (init_time + 2 * time_period), (init_time + 4 * time_period)
-    };
-    snk::snake_t init_snake{ { { 3, 3 }, { 4, 3 }, { 5, 3 } },
-      snk::direction_t::east };
-    snk::board_t board{ 10, 10 };
-    snk::running_t state{
-      std::move(init_snake), { 6, 3 }, board, speed, now()
-    };
+  /*   "movement after time passed"_test = [] { */
+  /*     auto const speed = 10; */
+  /*     auto const time_period = snk::to_time_period(speed); */
+  /*     auto const init_time = std::chrono::system_clock::now(); */
+  /*     mock_now now{ */
+  /*       init_time, (init_time + 2 * time_period), (init_time + 4 *
+   * time_period) */
+  /*     }; */
+  /*     snk::snake_t init_snake{ { { 3, 3 }, { 4, 3 }, { 5, 3 } }, */
+  /*       snk::direction_t::east }; */
+  /*     snk::board_t board{ 10, 10 }; */
+  /*     snk::running_t state{ */
+  /*       std::move(init_snake), { 6, 3 }, board, speed, now() */
+  /*     }; */
 
-    snk::snake_t &snake = state.snake();
-    snk::try_moving_snake(state, now);
-    expect(eq(snake.head(), snk::point_t{ 6, 3 }));
-  };
+  /*     snk::snake_t &snake = state.snake(); */
+  /*     snk::try_moving_snake(state, now); */
+  /*     expect(eq(snake.head(), snk::point_t{ 6, 3 })); */
+  /*   }; */
 
-  "movement after time not passed"_test = [] {
-    auto const speed = 10;
-    auto const time_period = snk::to_time_period(speed);
-    auto const init_time = std::chrono::system_clock::now();
-    mock_now now{
-      init_time, (init_time + time_period / 2), (init_time + 4 * time_period)
-    };
-    snk::snake_t init_snake{ { { 3, 3 }, { 4, 3 }, { 5, 3 } },
-      snk::direction_t::east };
-    snk::board_t board{ 10, 10 };
-    snk::running_t state{
-      std::move(init_snake), { 6, 3 }, board, speed, now()
-    };
+  /*   "movement after time not passed"_test = [] { */
+  /*     auto const speed = 10; */
+  /*     auto const time_period = snk::to_time_period(speed); */
+  /*     auto const init_time = std::chrono::system_clock::now(); */
+  /*     mock_now now{ */
+  /*       init_time, (init_time + time_period / 2), (init_time + 4 *
+   * time_period) */
+  /*     }; */
+  /*     snk::snake_t init_snake{ { { 3, 3 }, { 4, 3 }, { 5, 3 } }, */
+  /*       snk::direction_t::east }; */
+  /*     snk::board_t board{ 10, 10 }; */
+  /*     snk::running_t state{ */
+  /*       std::move(init_snake), { 6, 3 }, board, speed, now() */
+  /*     }; */
 
-    snk::snake_t &snake = state.snake();
-    snk::try_moving_snake(state, now);
-    expect(eq(snake.head(), snk::point_t{ 5, 3 }));
-  };
+  /*     snk::snake_t &snake = state.snake(); */
+  /*     snk::try_moving_snake(state, now); */
+  /*     expect(eq(snake.head(), snk::point_t{ 5, 3 })); */
+  /*   }; */
 };

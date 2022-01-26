@@ -1,10 +1,12 @@
 #pragma once
 #include "board.hpp"
+#include "input.hpp"
 #include "point.hpp"
 #include "snake.hpp"
 #include <utility>
 #include <variant>
 #include <chrono>
+#include <vector>
 
 namespace snk {
 struct init_t {};
@@ -15,6 +17,7 @@ class running_t {
   std::chrono::time_point<std::chrono::system_clock> last_tick_;
   board_t board_;
   std::size_t speed_;
+  std::vector<snk::direction_input_t> queued_direction_inputs_;
 
 public:
   explicit running_t(snake_t snake,
@@ -42,6 +45,16 @@ public:
   auto speed(std::size_t speed) { speed_ = speed; }
 
   [[nodiscard]] auto score() const { return snake_.size(); }
+
+  [[nodiscard]] auto queued_direction_inputs() const
+    -> std::vector<snk::direction_input_t> const & {
+    return queued_direction_inputs_;
+  }
+
+  [[nodiscard]] auto queued_direction_inputs()
+    -> std::vector<snk::direction_input_t> & {
+    return queued_direction_inputs_;
+  }
 };
 
 class finished_t {
