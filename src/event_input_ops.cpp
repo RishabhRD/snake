@@ -25,6 +25,8 @@ auto to_input(sf::Event const &event) -> std::optional<input_t> {
       return snk::quit_input_t{};
     case sf::Keyboard::Space:
       return snk::play_pause_input_t{};
+    case sf::Keyboard::Return:
+      return snk::start_input_t{};
     default:
       return std::nullopt;
     }

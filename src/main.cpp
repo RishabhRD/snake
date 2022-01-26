@@ -1,5 +1,6 @@
 #include "board_point_ops.hpp"
 #include "event_input_ops.hpp"
+#include "init_game_data.hpp"
 #include "point.hpp"
 #include "snake.hpp"
 #include "state.hpp"
@@ -95,26 +96,11 @@ void draw(sf::RenderWindow &window,
 }
 
 auto main() -> int {
-  constexpr static std::size_t num_tiles_x = 20;
-  constexpr static std::size_t num_tiles_y = 20;
-  constexpr static std::size_t scaling_factor_x = 30;
-  constexpr static std::size_t scaling_factor_y = 30;
-  constexpr static std::size_t win_size_x = scaling_factor_x * num_tiles_x;
-  constexpr static std::size_t win_size_y = scaling_factor_y * num_tiles_y;
-  constexpr static std::size_t speed = 6;
-  constexpr static snk::point_t init_fruit_position = { 17, 10 };
-
-  snk::board_t board{ num_tiles_y, num_tiles_x };
-  snk::snake_t init_snake{
-    { { 9, 10 }, { 10, 10 }, { 11, 10 } }, snk::direction_t::east, board
-  };
-  snk::state_t game_state{ snk::running_t{ std::move(init_snake),
-    init_fruit_position,
-    speed,
-    std::chrono::system_clock::now() } };
-
   sf::RenderWindow window(
-    sf::VideoMode(win_size_x, win_size_y), "Snake", sf::Style::None);
+    sf::VideoMode(snk::game_data::win_size_x, snk::game_data::win_size_y),
+    "Snake",
+    sf::Style::None);
+  snk::state_t game_state{ snk::init_t{} };
   while (window.isOpen()) {// NOLINT
     poll_events(window, game_state);
     if (rd::is<snk::closed_t>(game_state)) window.close();
@@ -126,7 +112,8 @@ auto main() -> int {
     });
     draw(window,
       game_state,
-      pixel_converter_t{ scaling_factor_x, scaling_factor_y });
+      pixel_converter_t{
+        snk::game_data::scaling_factor_x, snk::game_data::scaling_factor_y });
     window.display();
     using namespace std::literals;
     std::this_thread::sleep_for(50ms);

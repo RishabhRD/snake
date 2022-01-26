@@ -1,5 +1,6 @@
 #include "state_ops.hpp"
 #include "board_point_ops.hpp"
+#include "init_game_data.hpp"
 #include "input_handler.hpp"
 #include "rd/variant_then.hpp"
 #include <functional>
@@ -57,6 +58,23 @@ auto conditional_play_pause(snk::state_t &state) -> void {
     state = snk::paused_t{ std::get<snk::running_t>(state) };
   } else if (rd::is<snk::paused_t>(state)) {
     state = std::get<snk::paused_t>(state).running_state();
+  }
+}
+
+auto start_game(snk::state_t &state) -> void {
+  constexpr static std::size_t speed = 6;
+  constexpr static snk::point_t init_fruit_position = { 17, 10 };
+
+  if (!rd::is<snk::closed_t>(state)) {
+    snk::board_t board{ snk::game_data::num_tiles_x,
+      snk::game_data::num_tiles_y };
+    snk::snake_t init_snake{
+      { { 9, 10 }, { 10, 10 }, { 11, 10 } }, snk::direction_t::east, board
+    };
+    state = snk::running_t{ std::move(init_snake),
+      init_fruit_position,
+      speed,
+      std::chrono::system_clock::now() };
   }
 }
 }// namespace snk

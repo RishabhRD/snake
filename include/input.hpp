@@ -24,6 +24,8 @@ struct quit_input_t {};
 
 struct play_pause_input_t {};
 
-using input_t =
-  std::variant<direction_input_t, quit_input_t, play_pause_input_t>;
+struct start_input_t {};
+
+using input_t = std::
+  variant<direction_input_t, quit_input_t, play_pause_input_t, start_input_t>;
 }// namespace snk

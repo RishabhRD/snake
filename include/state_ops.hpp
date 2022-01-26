@@ -54,4 +54,5 @@ auto enqueue_direction_input(snk::running_t &state,
   snk::direction_input_t input) -> void;
 auto quit_game(snk::state_t &state) -> void;
 auto conditional_play_pause(snk::state_t &state) -> void;
+auto start_game(snk::state_t &state) -> void;
 }// namespace snk
