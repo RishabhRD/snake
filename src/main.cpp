@@ -105,11 +105,11 @@ auto main() -> int {
   constexpr static snk::point_t init_fruit_position = { 17, 10 };
 
   snk::board_t board{ num_tiles_y, num_tiles_x };
-  snk::snake_t init_snake{ { { 9, 10 }, { 10, 10 }, { 11, 10 } },
-    snk::direction_t::east };
+  snk::snake_t init_snake{
+    { { 9, 10 }, { 10, 10 }, { 11, 10 } }, snk::direction_t::east, board
+  };
   snk::state_t game_state{ snk::running_t{ std::move(init_snake),
     init_fruit_position,
-    board,
     speed,
     std::chrono::system_clock::now() } };
 

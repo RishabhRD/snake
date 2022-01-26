@@ -33,9 +33,7 @@ auto check_collision(snk::state_t &state) -> void {
   }
 }
 
-auto move_snake(snk::running_t &state) -> void {
-  state.snake().move(state.board());
-}
+auto move_snake(snk::running_t &state) -> void { state.snake().move(); }
 
 auto process_queued_directions(snk::state_t &game_state) -> void {
   if (rd::is<snk::running_t>(game_state)) {

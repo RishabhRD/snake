@@ -17,7 +17,7 @@ inline auto to_time_period(std::size_t speed) {
 struct try_eating_t {
   void operator()(snk::running_t &state, auto &&fruit_generator) const {
     if (state.snake().head() == state.fruit_pos()) {
-      state.snake().increase_len(state.board());
+      state.snake().increase_len();
       state.fruit_pos(std::invoke(
         std::forward<decltype(fruit_generator)>(fruit_generator), state));
     }

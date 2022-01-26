@@ -15,18 +15,16 @@ class running_t {
   snake_t snake_;
   point_t fruit_pos_;
   std::chrono::time_point<std::chrono::system_clock> last_tick_;
-  board_t board_;
   std::size_t speed_;
   std::vector<snk::direction_input_t> queued_direction_inputs_;
 
 public:
   explicit running_t(snake_t snake,
     point_t fruit_pos,
-    board_t board,
     std::size_t speed,
     std::chrono::time_point<std::chrono::system_clock> last_tick)
     : snake_(std::move(snake)), fruit_pos_(fruit_pos), last_tick_(last_tick),
-      board_(board), speed_(speed) {}
+      speed_(speed) {}
 
   auto snake() -> snake_t & { return snake_; }
   [[nodiscard]] auto snake() const -> const snake_t & { return snake_; }
@@ -39,7 +37,7 @@ public:
     last_tick_ = tick;
   }
 
-  [[nodiscard]] auto board() const { return board_; }
+  [[nodiscard]] auto board() const { return snake_.board(); }
 
   [[nodiscard]] auto speed() const { return speed_; }
   auto speed(std::size_t speed) { speed_ = speed; }

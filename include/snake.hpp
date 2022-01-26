@@ -16,33 +16,40 @@ class snake_t {
   // tail of snake is front of list
   std::list<point_t> body_points_;
   direction_t cur_direction_;
+  board_t board_;
 
 public:
-  explicit snake_t(std::initializer_list<point_t> body_points, direction_t dir)
-    : body_points_(body_points), cur_direction_(dir) {}
+  explicit snake_t(std::initializer_list<point_t> body_points,
+    direction_t dir,
+    board_t board)
+    : body_points_(body_points), cur_direction_(dir), board_(board) {}
 
 
-  [[nodiscard]] std::size_t size() const { return body_points_.size(); }
+  [[nodiscard]] auto size() const -> std::size_t { return body_points_.size(); }
 
-  [[nodiscard]] direction_t cur_direction() const { return cur_direction_; }
+  [[nodiscard]] auto cur_direction() const -> direction_t {
+    return cur_direction_;
+  }
 
-  [[nodiscard]] const std::list<point_t> &body_points() const {
+  [[nodiscard]] auto body_points() const -> const std::list<point_t> & {
     return body_points_;
   }
 
   [[nodiscard]] auto head() const { return body_points_.back(); }
 
-  auto increase_len(board_t const board) -> snake_t & {
+  [[nodiscard]] auto board() const { return board_; }
+
+  auto increase_len() -> snake_t & {
     auto head = body_points_.back();
     body_points_.push_back(
-      snk::in_board(next_point_in_direction(head, cur_direction_), board));
+      snk::in_board(next_point_in_direction(head, cur_direction_), board_));
     return *this;
   }
 
-  auto move(board_t const board) -> snake_t & {
+  auto move() -> snake_t & {
     auto head = body_points_.back();
     body_points_.push_back(
-      snk::in_board(next_point_in_direction(head, cur_direction_), board));
+      snk::in_board(next_point_in_direction(head, cur_direction_), board_));
     body_points_.pop_front();
     return *this;
   }
@@ -53,9 +60,10 @@ public:
     return *this;
   }
 
-  friend bool operator==(snake_t const &, snake_t const &) = default;
+  friend auto operator==(snake_t const &, snake_t const &) -> bool = default;
 
-  friend std::ostream &operator<<(std::ostream &out, snake_t const &snake) {
+  friend auto operator<<(std::ostream &out, snake_t const &snake)
+    -> std::ostream & {
     out << '[';
     out << '{';
     for (auto p : snake.body_points_) out << ' ' << p << ' ';
@@ -66,6 +74,6 @@ public:
   }
 };
 
-bool is_collided_to_self(snake_t const &snake);
+auto is_collided_to_self(snake_t const &snake) -> bool;
 
 }// namespace snk
