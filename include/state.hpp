@@ -53,6 +53,9 @@ public:
     -> std::vector<snk::direction_input_t> & {
     return queued_direction_inputs_;
   }
+
+  friend auto operator==(const running_t &, const running_t &)
+    -> bool = default;
 };
 
 class finished_t {
@@ -65,5 +68,17 @@ public:
 
 class closed_t {};
 
-using state_t = std::variant<init_t, running_t, finished_t, closed_t>;
+class paused_t {
+  snk::running_t running_state_;
+
+public:
+  explicit paused_t(snk::running_t running)
+    : running_state_{ std::move(running) } {};
+
+  [[nodiscard]] auto running_state() const { return running_state_; }
+
+  friend auto operator==(const paused_t &, const paused_t &) -> bool = default;
+};
+
+using state_t = std::variant<init_t, running_t, paused_t, finished_t, closed_t>;
 }// namespace snk

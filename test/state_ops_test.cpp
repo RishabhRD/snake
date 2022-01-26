@@ -149,4 +149,43 @@ suite const state_machine_suite = [] {
 
     expect(eq(called, false));
   };
+
+  "quit game"_test = [=] {
+    auto const speed = 10;
+    auto const time_period = snk::to_time_period(speed);
+    auto const init_time = std::chrono::system_clock::now();
+    mock_now now{
+      init_time, (init_time + time_period / 2), (init_time + 4 * time_period)
+    };
+    snk::snake_t init_snake{
+      { { 3, 3 }, { 4, 3 }, { 5, 3 } }, snk::direction_t::east, board
+    };
+    snk::state_t state{ snk::running_t{
+      std::move(init_snake), { 6, 3 }, speed, now() } };
+
+    snk::quit_game(state);
+    expect(eq(rd::is<snk::closed_t>(state), true));
+  };
+
+  "play pause"_test = [=] {
+    auto const speed = 10;
+    auto const time_period = snk::to_time_period(speed);
+    auto const init_time = std::chrono::system_clock::now();
+    mock_now now{
+      init_time, (init_time + time_period / 2), (init_time + 4 * time_period)
+    };
+    snk::snake_t init_snake{
+      { { 3, 3 }, { 4, 3 }, { 5, 3 } }, snk::direction_t::east, board
+    };
+    snk::running_t running_state{
+      std::move(init_snake), { 6, 3 }, speed, now()
+    };
+    snk::state_t state{ running_state };
+    snk::conditional_play_pause(state);
+    expect(eq(rd::is<snk::paused_t>(state), true));
+    expect(std::get<snk::paused_t>(state).running_state() == running_state);
+    snk::conditional_play_pause(state);
+    expect(eq(rd::is<snk::running_t>(state), true));
+    expect(std::get<snk::running_t>(state) == running_state);
+  };
 };

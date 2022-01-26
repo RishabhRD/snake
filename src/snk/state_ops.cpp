@@ -44,4 +44,19 @@ auto process_queued_directions(snk::state_t &game_state) -> void {
       apply_direction(*opt_dir_input, std::get<snk::running_t>(game_state));
   }
 }
+
+auto enqueue_direction_input(snk::running_t &state,
+  snk::direction_input_t input) -> void {
+  state.queued_direction_inputs().push_back(input);
+}
+
+auto quit_game(snk::state_t &state) -> void { state = snk::closed_t{}; }
+
+auto conditional_play_pause(snk::state_t &state) -> void {
+  if (rd::is<snk::running_t>(state)) {
+    state = snk::paused_t{ std::get<snk::running_t>(state) };
+  } else if (rd::is<snk::paused_t>(state)) {
+    state = std::get<snk::paused_t>(state).running_state();
+  }
+}
 }// namespace snk
