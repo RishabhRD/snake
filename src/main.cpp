@@ -8,7 +8,10 @@
 #include "input_handler.hpp"
 #include "rd/variant_then.hpp"
 #include "rd/overload.hpp"
+#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Texture.hpp>
 #include <algorithm>
+#include <iostream>
 #include <thread>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window/WindowStyle.hpp>
@@ -60,9 +63,21 @@ void draw(sf::RenderWindow &window, snk::running_t const &state) {
   draw_snake(window, state);
 }
 
+void draw(sf::RenderWindow &window, snk::init_t const & /*unused*/) {
+  window.clear(sf::Color::Black);
+  sf::Texture texture;
+  sf::Sprite background;
+  if (!texture.loadFromFile("data/title.png")) {
+    std::cerr << "Can't load backgound\n";
+  }
+  background.setTexture(texture);
+  window.draw(background);
+}
+
 void draw(sf::RenderWindow &window, snk::state_t const &game_state) {
   auto draw_states =
     rd::overload{ [&](snk::running_t const &state) { draw(window, state); },
+      [&](snk::init_t const state) { draw(window, state); },
       [](auto const &) {} };
   std::visit(std::move(draw_states), game_state);
 }
