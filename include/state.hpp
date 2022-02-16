@@ -1,6 +1,6 @@
 #pragma once
 #include "board.hpp"
-#include "input.hpp"
+#include "event.hpp"
 #include "point.hpp"
 #include "snake.hpp"
 #include <utility>
@@ -16,7 +16,7 @@ class running_t {
   point_t fruit_pos_;
   std::chrono::time_point<std::chrono::system_clock> last_tick_;
   std::size_t speed_;
-  std::vector<snk::direction_input_t> queued_direction_inputs_;
+  std::vector<snk::event::direction_change> queued_direction_inputs_;
 
 public:
   explicit running_t(snake_t snake,
@@ -45,12 +45,12 @@ public:
   [[nodiscard]] auto score() const { return snake_.size(); }
 
   [[nodiscard]] auto queued_direction_inputs() const
-    -> std::vector<snk::direction_input_t> const & {
+    -> std::vector<snk::event::direction_change> const & {
     return queued_direction_inputs_;
   }
 
   [[nodiscard]] auto queued_direction_inputs()
-    -> std::vector<snk::direction_input_t> & {
+    -> std::vector<snk::event::direction_change> & {
     return queued_direction_inputs_;
   }
 

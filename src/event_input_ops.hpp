@@ -1,9 +1,9 @@
 #pragma once
 
-#include "input.hpp"
+#include "event.hpp"
 #include <SFML/Graphics.hpp>
 #include <optional>
 
 namespace snk {
-auto to_input(sf::Event const &event) -> std::optional<input_t>;
+auto to_input(sf::Event const &event) -> std::optional<event::event_t>;
 }

@@ -7,19 +7,19 @@
 
 namespace snk {
 
-auto apply_direction(snk::direction_input_t dir, snk::running_t &state) {
+auto apply_direction(snk::event::direction_change dir, snk::running_t &state) {
   state.snake().set_cur_direction(to_direction(dir));
 }
 
-auto is_direction_input(snk::direction_input_t const input) -> bool {
-  return input == snk::direction_input_t::down
-         or input == snk::direction_input_t::up
-         or input == snk::direction_input_t::right
-         or input == snk::direction_input_t::left;
+auto is_direction_input(snk::event::direction_change const input) -> bool {
+  return input == snk::event::direction_change::down
+         or input == snk::event::direction_change::up
+         or input == snk::event::direction_change::right
+         or input == snk::event::direction_change::left;
 }
 
 auto get_last_direction_input(auto const &rng)
-  -> std::optional<snk::direction_input_t> {
+  -> std::optional<snk::event::direction_change> {
   auto dir_input_itr = std::find_if(std::rbegin(rng),
     std::rend(rng),
     [](auto input) { return is_direction_input(input); });
@@ -47,7 +47,7 @@ auto process_queued_directions(snk::state_t &game_state) -> void {
 }
 
 auto enqueue_direction_input(snk::running_t &state,
-  snk::direction_input_t input) -> void {
+  snk::event::direction_change input) -> void {
   state.queued_direction_inputs().push_back(input);
 }
 

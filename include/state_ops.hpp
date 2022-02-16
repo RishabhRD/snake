@@ -51,7 +51,7 @@ void check_collision(snk::state_t &state);
 void move_snake(snk::running_t &state);
 void process_queued_directions(snk::state_t &state);
 auto enqueue_direction_input(snk::running_t &state,
-  snk::direction_input_t input) -> void;
+  snk::event::direction_change input) -> void;
 auto quit_game(snk::state_t &state) -> void;
 auto conditional_play_pause(snk::state_t &state) -> void;
 auto start_game(snk::state_t &state) -> void;
