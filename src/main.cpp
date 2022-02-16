@@ -2,10 +2,10 @@
 #include "event_input_ops.hpp"
 #include "init_game_data.hpp"
 #include "point.hpp"
+#include "running_state_ops.hpp"
 #include "snake.hpp"
 #include "state.hpp"
-#include "state_ops.hpp"
-#include "input_handler.hpp"
+#include "event_handler.hpp"
 #include "rd/variant_then.hpp"
 #include "rd/overload.hpp"
 #include <SFML/Graphics/Sprite.hpp>
@@ -21,12 +21,20 @@ auto pixel_on_draw_board(snk::point_t point) -> sf::Vector2f {
     static_cast<float>(point.y * snk::game_data::scaling_factor_y) };
 }
 
-auto poll_events(sf::RenderWindow &window, snk::state_t &game_state) {
+auto poll_events(sf::RenderWindow &window, snk::state_t const &game_state) {
+  std::vector<snk::event::event_t> events;
   sf::Event event{};
-  while (window.pollEvent(event)) {
-    auto opt_input = snk::to_input(event);
-    if (opt_input) snk::handle_input(*opt_input, game_state);
+  if (rd::is<snk::running_t>(game_state)) {
+    auto const cur_time = std::chrono::system_clock::now();
+    if (snk::should_move(std::get<snk::running_t>(game_state), cur_time)) {
+      events.emplace_back(snk::event::timeout{ cur_time });
+    }
   }
+  while (window.pollEvent(event)) {
+    auto opt_event = snk::to_event(event);
+    if (opt_event) events.push_back(*opt_event);
+  }
+  return events;
 }
 
 void draw_tile(snk::point_t const position,
@@ -87,17 +95,14 @@ auto main() -> int {
     sf::VideoMode(snk::game_data::win_size_x, snk::game_data::win_size_y),
     "Snake",
     sf::Style::None);
-  snk::state_t game_state{ snk::init_t{} };
+  snk::state_t state{ snk::init_t{} };
   while (window.isOpen()) {// NOLINT
-    poll_events(window, game_state);
-    if (rd::is<snk::closed_t>(game_state)) window.close();
-    snk::after_time_period(game_state, [](snk::state_t &state) {
-      rd::then<snk::running_t>(state, snk::try_eating);
-      snk::process_queued_directions(state);
-      rd::then<snk::running_t>(state, snk::move_snake);
-      if (rd::is<snk::running_t>(state)) snk::check_collision(state);
-    });
-    draw(window, game_state);
+    auto events = poll_events(window, state);
+    for (auto event : events) {
+      state = snk::handle_event(std::move(state), event);
+    }
+    if (rd::is<snk::closed_t>(state)) window.close();
+    draw(window, state);
     window.display();
     using namespace std::literals;
     std::this_thread::sleep_for(50ms);

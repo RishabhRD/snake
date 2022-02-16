@@ -1,7 +1,7 @@
 #include "event_input_ops.hpp"
 
 namespace snk {
-auto to_input(sf::Event const &event) -> std::optional<event::event_t> {
+auto to_event(sf::Event const &event) -> std::optional<event::event_t> {
   if (event.type == sf::Event::Closed) return snk::event::quit{};
   if (event.type == sf::Event::KeyPressed) {
     switch (event.key.code) {// NOLINT

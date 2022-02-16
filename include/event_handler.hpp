@@ -4,5 +4,6 @@
 #include "state.hpp"
 
 namespace snk {
-auto handle_input(snk::event::event_t input, snk::state_t &state) -> void;
+auto handle_event(snk::state_t state, snk::event::event_t event)
+  -> snk::state_t;
 }// namespace snk

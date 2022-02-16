@@ -5,5 +5,5 @@
 #include <optional>
 
 namespace snk {
-auto to_input(sf::Event const &event) -> std::optional<event::event_t>;
+auto to_event(sf::Event const &event) -> std::optional<event::event_t>;
 }

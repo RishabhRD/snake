@@ -2,6 +2,7 @@
 #include "direction.hpp"
 #include <optional>
 #include <variant>
+#include <chrono>
 
 namespace snk::event {
 enum class direction_change { left, right, up, down };
@@ -26,5 +27,10 @@ struct play_pause {};
 
 struct start {};
 
-using event_t = std::variant<direction_change, quit, play_pause, start>;
+struct timeout {
+  std::chrono::time_point<std::chrono::system_clock> cur_time;
+};
+
+using event_t =
+  std::variant<direction_change, quit, play_pause, start, timeout>;
 }// namespace snk::event
