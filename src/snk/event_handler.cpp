@@ -55,11 +55,9 @@ public:
   auto operator()(event::timeout timeout) {
     if (rd::is<running_t>(state)) {
       auto &running_state = std::get<running_t>(state);
-      running_state.last_tick(timeout.cur_time);
-      running_state = snk::try_eating(std::move(running_state));
-      running_state = snk::apply_queued_directions(std::move(running_state));
-      running_state = snk::move_snake(std::move(running_state));
-      state = snk::check_collision(std::move(running_state));
+      running_state = std::move(running_state).with_last_tick(timeout.cur_time);
+      state = snk::check_collision(snk::move_snake(snk::apply_queued_directions(
+        snk::try_eating(std::move(running_state)))));
     }
     return state;
   }

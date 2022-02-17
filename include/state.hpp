@@ -33,14 +33,37 @@ public:
   auto fruit_pos(point_t new_pos) { fruit_pos_ = new_pos; }
 
   [[nodiscard]] auto last_tick() const { return last_tick_; }
-  auto last_tick(std::chrono::time_point<std::chrono::system_clock> tick) {
-    last_tick_ = tick;
+
+  [[nodiscard]] auto with_last_tick(
+    std::chrono::time_point<std::chrono::system_clock> tick)
+    const & -> running_t {
+    running_t state{ *this };
+    state.last_tick_ = tick;
+    return state;
+  }
+
+  [[nodiscard]] auto with_last_tick(
+    std::chrono::time_point<std::chrono::system_clock> tick) && -> running_t {
+    running_t state{ std::move(*this) };
+    state.last_tick_ = tick;
+    return state;
   }
 
   [[nodiscard]] auto board() const { return snake_.board(); }
 
   [[nodiscard]] auto speed() const { return speed_; }
-  auto speed(std::size_t speed) { speed_ = speed; }
+
+  [[nodiscard]] auto with_speed(std::size_t speed) const & -> running_t {
+    auto self{ *this };
+    self.speed_ = speed;
+    return self;
+  }
+
+  [[nodiscard]] auto with_speed(std::size_t speed) && -> running_t {
+    auto self{ std::move(*this) };
+    self.speed_ = speed;
+    return self;
+  }
 
   [[nodiscard]] auto score() const { return snake_.size(); }
 
