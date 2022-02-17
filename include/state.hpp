@@ -9,7 +9,9 @@
 #include <vector>
 
 namespace snk {
-struct init_t {};
+struct init_t {
+  friend auto operator==(const init_t &, const init_t &) -> bool = default;
+};
 
 class running_t {
   snake_t snake_;
@@ -87,9 +89,14 @@ class finished_t {
 public:
   explicit finished_t(std::size_t score) : score_(score) {}
   [[nodiscard]] auto score() const { return score_; }
+
+  friend auto operator==(const finished_t &, const finished_t &)
+    -> bool = default;
 };
 
-class closed_t {};
+class closed_t {
+  friend auto operator==(const closed_t &, const closed_t &) -> bool = default;
+};
 
 class paused_t {
   snk::running_t running_state_;
