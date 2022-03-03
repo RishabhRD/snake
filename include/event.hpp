@@ -1,5 +1,6 @@
 #pragma once
 #include "direction.hpp"
+#include "point.hpp"
 #include <optional>
 #include <variant>
 #include <chrono>
@@ -31,6 +32,10 @@ struct timeout {
   std::chrono::time_point<std::chrono::system_clock> cur_time;
 };
 
-using event_t =
-  std::variant<direction_change, quit, play_pause, start, timeout>;
+struct fruit_generated {
+  point_t fruit_pos;
+};
+
+using event_t = std::
+  variant<direction_change, quit, play_pause, start, timeout, fruit_generated>;
 }// namespace snk::event

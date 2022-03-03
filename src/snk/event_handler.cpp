@@ -5,6 +5,7 @@
 #include "init_game_data.hpp"
 #include "running_state_ops.hpp"
 #include "state.hpp"
+#include <boost/hof/flow.hpp>
 #include <utility>
 #include <variant>
 
@@ -32,7 +33,7 @@ public:
         speed,
         std::chrono::system_clock::now() };
     }
-    return state;
+    return std::move(state);
   }
 
   auto operator()(event::play_pause /*unused*/) {
@@ -41,7 +42,7 @@ public:
     } else if (rd::is<snk::paused_t>(state)) {
       state = std::move(std::get<snk::paused_t>(state)).running_state();
     }
-    return state;
+    return std::move(state);
   }
 
   auto operator()(event::direction_change dir) {
@@ -49,17 +50,26 @@ public:
       auto &running_state = std::get<running_t>(state);
       running_state = queue_direction(std::move(running_state), dir);
     }
-    return state;
+    return std::move(state);
   }
 
-  auto operator()(event::timeout timeout) {
-    if (rd::is<running_t>(state)) {
-      auto &running_state = std::get<running_t>(state);
-      running_state = std::move(running_state).with_last_tick(timeout.cur_time);
-      state = snk::check_collision(snk::move_snake(snk::apply_queued_directions(
-        snk::try_eating(std::move(running_state)))));
+  auto operator()(event::timeout timeout) -> state_t {
+    return std::move(state)
+           | rd::then<running_t>([timeout](snk::running_t running_state) {
+               return std::move(running_state).with_last_tick(timeout.cur_time);
+             })
+           | rd::then<running_t>(check_collision)
+           | rd::then<running_t>(
+             boost::hof::flow(snk::apply_queued_directions, snk::try_eating))
+           | rd::then<running_t>(move_snake);
+  }
+
+  auto operator()(event::fruit_generated fruit) -> state_t {
+    if (rd::is<fruit_needed_t>(state)) {
+      return std::get<fruit_needed_t>(std::move(state))
+        .provide_fruit(fruit.fruit_pos);
     }
-    return state;
+    return std::move(state);
   }
 };
 

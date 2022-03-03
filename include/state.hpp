@@ -32,7 +32,18 @@ public:
   [[nodiscard]] auto snake() const -> const snake_t & { return snake_; }
 
   [[nodiscard]] auto fruit_pos() const { return fruit_pos_; }
-  auto fruit_pos(point_t new_pos) { fruit_pos_ = new_pos; }
+
+  [[nodiscard]] auto with_fruit_pos(point_t new_pos) const & -> running_t {
+    running_t state{ *this };
+    state.fruit_pos_ = new_pos;
+    return state;
+  }
+
+  [[nodiscard]] auto with_fruit_pos(point_t new_pos) && -> running_t {
+    running_t state{ std::move(*this) };
+    state.fruit_pos_ = new_pos;
+    return state;
+  }
 
   [[nodiscard]] auto last_tick() const { return last_tick_; }
 
@@ -110,5 +121,31 @@ public:
   friend auto operator==(const paused_t &, const paused_t &) -> bool = default;
 };
 
-using state_t = std::variant<init_t, running_t, paused_t, finished_t, closed_t>;
+class fruit_needed_t {
+  snk::running_t running_state_;
+
+public:
+  explicit fruit_needed_t(snk::running_t running)
+    : running_state_(std::move(running)) {}
+
+  [[nodiscard]] auto provide_fruit(point_t fruit_pos) const & -> running_t {
+    return running_state_.with_fruit_pos(fruit_pos);
+  }
+
+  [[nodiscard]] auto provide_fruit(point_t fruit_pos) && -> running_t {
+    return std::move(running_state_).with_fruit_pos(fruit_pos);
+  }
+
+  [[nodiscard]] auto board() const -> board_t { return running_state_.board(); }
+
+  [[nodiscard]] auto snake() const -> snake_t const & {
+    return running_state_.snake();
+  }
+
+  friend auto operator==(const fruit_needed_t &, const fruit_needed_t &)
+    -> bool = default;
+};
+
+using state_t = std::
+  variant<init_t, running_t, paused_t, finished_t, closed_t, fruit_needed_t>;
 }// namespace snk

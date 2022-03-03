@@ -2,6 +2,7 @@
 #include "event_input_ops.hpp"
 #include "init_game_data.hpp"
 #include "point.hpp"
+#include "random_fruit_generator.hpp"
 #include "running_state_ops.hpp"
 #include "snake.hpp"
 #include "state.hpp"
@@ -101,7 +102,13 @@ auto main() -> int {
     for (auto event : events) {
       state = snk::handle_event(std::move(state), event);
     }
-    if (rd::is<snk::closed_t>(state)) window.close();
+    if (rd::is<snk::closed_t>(state))
+      window.close();
+    else if (rd::is<snk::fruit_needed_t>(state)) {
+      snk::event::fruit_generated fruit_generated_event{ snk::random_fruit_for(
+        std::get<snk::fruit_needed_t>(state)) };
+      state = snk::handle_event(std::move(state), fruit_generated_event);
+    }
     draw(window, state);
     window.display();
     using namespace std::literals;
