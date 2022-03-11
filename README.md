@@ -16,4 +16,4 @@ What I tried to enforce throught the program:
 
 ## Screenshots
 
-<img src="https://user-images.githubusercontent.com/26287448/157916040-fb58ae13-f1e8-4469-a72d-d31985309f73.png" alt = "Intro Screen" width=200> \| <img src="https://user-images.githubusercontent.com/26287448/157916059-9884628a-f2f2-42d9-a79f-ef0500c68700.png" alt = "Game Screen" width=200>
+<img src="https://user-images.githubusercontent.com/26287448/157916040-fb58ae13-f1e8-4469-a72d-d31985309f73.png" alt = "Intro Screen" width=200> <img src="https://user-images.githubusercontent.com/26287448/157916059-9884628a-f2f2-42d9-a79f-ef0500c68700.png" alt = "Game Screen" width=200>
