@@ -18,7 +18,7 @@ public:
 
   auto operator()(event::quit /*unused*/) const { return closed_t{}; }
 
-  auto operator()(event::start /*unused*/) {
+  auto operator()(event::start evt) {
     constexpr static std::size_t speed = 10;
     constexpr static snk::point_t init_fruit_position = { 17, 10 };
 
@@ -28,10 +28,9 @@ public:
       snk::snake_t init_snake{
         { { 9, 10 }, { 10, 10 }, { 11, 10 } }, snk::direction_t::east, board
       };
-      state = snk::running_t{ std::move(init_snake),
-        init_fruit_position,
-        speed,
-        std::chrono::system_clock::now() };
+      state = snk::running_t{
+        std::move(init_snake), init_fruit_position, speed, evt.cur_time
+      };
     }
     return std::move(state);
   }

@@ -26,7 +26,9 @@ struct quit {};
 
 struct play_pause {};
 
-struct start {};
+struct start {
+  std::chrono::time_point<std::chrono::system_clock> cur_time;
+};
 
 struct timeout {
   std::chrono::time_point<std::chrono::system_clock> cur_time;

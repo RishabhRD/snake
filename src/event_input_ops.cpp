@@ -26,7 +26,7 @@ auto to_event(sf::Event const &event) -> std::optional<event::event_t> {
     case sf::Keyboard::Space:
       return snk::event::play_pause{};
     case sf::Keyboard::Return:
-      return snk::event::start{};
+      return snk::event::start{ std::chrono::system_clock::now() };
     default:
       return std::nullopt;
     }
