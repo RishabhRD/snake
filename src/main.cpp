@@ -16,6 +16,7 @@
 #include <thread>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window/WindowStyle.hpp>
+#include <span>
 
 auto pixel_on_draw_board(snk::point_t point) -> sf::Vector2f {
   return { static_cast<float>(point.x * snk::game_data::scaling_factor_x),
@@ -91,28 +92,46 @@ void draw(sf::RenderWindow &window, snk::state_t const &game_state) {
   std::visit(draw_states, game_state);
 }
 
-auto main() -> int {
-  sf::RenderWindow window(
-    sf::VideoMode(snk::game_data::win_size_x, snk::game_data::win_size_y),
-    "Snake",
-    sf::Style::None);
-  snk::state_t state{ snk::init_t{} };
-  while (window.isOpen()) {// NOLINT
-    auto events = poll_events(window, state);
-    for (auto event : events) {
-      state = snk::handle_event(std::move(state), event);
+auto print_help() {
+  std::cout << "       Snake Game\n";
+  std::cout << "Start/Restart -> Enter\n";
+  std::cout << "UP            -> W, K, <UP>\n";
+  std::cout << "DOWN          -> S, J, <DOWN>\n";
+  std::cout << "LEFT          -> A, H, <LEFT>\n";
+  std::cout << "RIGHT         -> D, L, <RIGHT>\n";
+  std::cout << "Play/Pause    -> Space\n";
+  std::cout << "Quit          -> Escape\n";
+}
+
+auto main(int argc, char **argv) -> int {
+  using namespace std::literals;
+  auto args = std::span(argv, static_cast<std::size_t>(argc));
+  if (args.size() == 2 and (args[1] == "--help"sv or args[1] == "-h"sv)) {
+    print_help();
+  } else {
+    sf::RenderWindow window(
+      sf::VideoMode(snk::game_data::win_size_x, snk::game_data::win_size_y),
+      "Snake",
+      sf::Style::None);
+    snk::state_t state{ snk::init_t{} };
+    while (window.isOpen()) {// NOLINT
+      auto events = poll_events(window, state);
+      for (auto event : events) {
+        state = snk::handle_event(std::move(state), event);
+      }
+      if (rd::is<snk::closed_t>(state))
+        window.close();
+      else if (rd::is<snk::fruit_needed_t>(state)) {
+        snk::event::fruit_generated fruit_generated_event{
+          snk::random_fruit_for(std::get<snk::fruit_needed_t>(state))
+        };
+        state = snk::handle_event(std::move(state), fruit_generated_event);
+      }
+      draw(window, state);
+      window.display();
+      using namespace std::literals;
+      std::this_thread::sleep_for(50ms);
     }
-    if (rd::is<snk::closed_t>(state))
-      window.close();
-    else if (rd::is<snk::fruit_needed_t>(state)) {
-      snk::event::fruit_generated fruit_generated_event{ snk::random_fruit_for(
-        std::get<snk::fruit_needed_t>(state)) };
-      state = snk::handle_event(std::move(state), fruit_generated_event);
-    }
-    draw(window, state);
-    window.display();
-    using namespace std::literals;
-    std::this_thread::sleep_for(50ms);
   }
   return 0;
 }
