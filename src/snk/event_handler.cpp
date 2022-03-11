@@ -1,5 +1,4 @@
 #include "event_handler.hpp"
-#include "rd/overload.hpp"
 #include "rd/variant_then.hpp"
 #include "rd/vector_util.hpp"
 #include "init_game_data.hpp"

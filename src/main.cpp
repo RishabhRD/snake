@@ -8,7 +8,7 @@
 #include "state.hpp"
 #include "event_handler.hpp"
 #include "rd/variant_then.hpp"
-#include "rd/overload.hpp"
+#include <boost/hof.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <algorithm>
@@ -85,10 +85,10 @@ void draw(sf::RenderWindow &window, snk::init_t const & /*unused*/) {
 
 void draw(sf::RenderWindow &window, snk::state_t const &game_state) {
   auto draw_states =
-    rd::overload{ [&](snk::running_t const &state) { draw(window, state); },
+    boost::hof::match([&](snk::running_t const &state) { draw(window, state); },
       [&](snk::init_t const state) { draw(window, state); },
-      [](auto const &) {} };
-  std::visit(std::move(draw_states), game_state);
+      [](auto const &) {});
+  std::visit(draw_states, game_state);
 }
 
 auto main() -> int {
