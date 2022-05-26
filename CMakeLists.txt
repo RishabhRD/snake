@@ -56,17 +56,8 @@ endif()
 set(CONAN_EXTRA_REQUIRES "")
 set(CONAN_EXTRA_OPTIONS "")
 
-if(CPP_STARTER_USE_IMGUI)
-  set(CONAN_EXTRA_REQUIRES ${CONAN_EXTRA_REQUIRES} imgui-sfml/2.1@bincrafters/stable)
-
-  # set(CONAN_EXTRA_OPTIONS ${CONAN_EXTRA_OPTIONS} sfml:shared=False sfml:graphics=True sfml:audio=False
-  # sfml:window=True libalsa:disable_python=True)
-endif()
-
-if(CPP_STARTER_USE_SDL)
-  set(CONAN_EXTRA_REQUIRES ${CONAN_EXTRA_REQUIRES} sdl2/2.0.10@bincrafters/stable)
-  # set(CONAN_EXTRA_OPTIONS ${CONAN_EXTRA_OPTIONS} sdl2:wayland=True)
-endif()
+set(CONAN_EXTRA_REQUIRES ${CONAN_EXTRA_REQUIRES} boost/1.78.0 boost-ext-ut/1.1.8 sfml/2.5.1 ogg/1.3.5)
+set(CONAN_EXTRA_OPTIONS ${CONAN_EXTRA_OPTIONS} boost:header_only=True)
 
 include(cmake/Conan.cmake)
 run_conan()
