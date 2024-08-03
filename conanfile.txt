@@ -1,0 +1,8 @@
+[requires]
+boost-ext-ut/2.0.1
+sfml/2.6.1
+boost/1.85.0
+
+[generators]
+CMakeDeps
+CMakeToolchain

@@ -1,5 +1,6 @@
 ---
 Checks:          '*,
+  -readability-identifier-naming,
   -readability-magic-numbers,
   -cppcoreguidelines-avoid-magic-numbers,
   -cert-err58-cpp,

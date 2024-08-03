@@ -1,4 +1,3 @@
-#include <iostream>
 #include "board.hpp"
 #include "event_handler.hpp"
 #include "snake.hpp"
