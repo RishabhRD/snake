@@ -1,5 +1,6 @@
 #include "board_point_ops.hpp"
 #include "event_input_ops.hpp"
+#include "functional.hpp"
 #include "init_game_data.hpp"
 #include "point.hpp"
 #include "random_fruit_generator.hpp"
@@ -85,10 +86,11 @@ void draw(sf::RenderWindow &window, snk::init_t const & /*unused*/) {
 }
 
 void draw(sf::RenderWindow &window, snk::state_t const &game_state) {
-  auto draw_states =
-    boost::hof::match([&](snk::running_t const &state) { draw(window, state); },
-      [&](snk::init_t const state) { draw(window, state); },
-      [](auto const &) {});
+  auto draw_states = nostd::overload{
+    [&](snk::running_t const &state) { draw(window, state); },
+    [&](snk::init_t const state) { draw(window, state); },
+    [](auto const &) {},
+  };
   std::visit(draw_states, game_state);
 }
 
