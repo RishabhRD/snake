@@ -8,7 +8,7 @@ suite const state_machine_suite = [] {
   using namespace std::chrono_literals;
   snk::board_t board{ 10, 10 };
   snk::snake_t old_snake{
-    { { 3, 3 }, { 4, 3 } }, snk::direction_t::east, board
+    { { 3, 3 }, { 4, 3 } }, snk::direction_t::right, board
   };
   "straight move"_test = [=] {
     auto const cur_time = std::chrono::system_clock::now();
@@ -17,7 +17,7 @@ suite const state_machine_suite = [] {
     auto state = snk::handle_event(
       std::move(running_state), snk::event::timeout{ new_time });
     snk::snake_t expected_snake{
-      { { 4, 3 }, { 5, 3 } }, snk::direction_t::east, board
+      { { 4, 3 }, { 5, 3 } }, snk::direction_t::right, board
     };
     snk::state_t expected_state =
       snk::running_t{ expected_snake, { 5, 5 }, 6, new_time };
@@ -28,7 +28,7 @@ suite const state_machine_suite = [] {
     auto const cur_time = std::chrono::system_clock::now();
     snk::snake_t given_snake{
       { { 4, 3 }, { 5, 3 }, { 6, 3 }, { 6, 2 }, { 5, 2 } },
-      snk::direction_t::west,
+      snk::direction_t::left,
       board
     };
     snk::state_t cur_state =
@@ -51,7 +51,7 @@ suite const state_machine_suite = [] {
     auto state = snk::handle_event(
       std::move(running_state), snk::event::timeout{ new_time });
     snk::snake_t expected_snake{
-      { { 3, 3 }, { 4, 3 }, { 5, 3 } }, snk::direction_t::east, board
+      { { 3, 3 }, { 4, 3 }, { 5, 3 } }, snk::direction_t::right, board
     };
     snk::state_t expected_state = snk::fruit_needed_t{ snk::running_t{
       expected_snake, { 4, 3 }, 6, new_time } };
@@ -72,7 +72,7 @@ suite const state_machine_suite = [] {
     state =
       snk::handle_event(std::move(state), snk::event::timeout{ new_time });
     snk::snake_t expected_snake{
-      { { 3, 3 }, { 4, 3 }, { 4, 2 } }, snk::direction_t::north, board
+      { { 3, 3 }, { 4, 3 }, { 4, 2 } }, snk::direction_t::up, board
     };
     snk::state_t expected_state = snk::fruit_needed_t{ snk::running_t{
       expected_snake, { 4, 3 }, 6, new_time } };
@@ -95,7 +95,7 @@ suite const state_machine_suite = [] {
                                 { 7, 1 },
                                 { 6, 1 },
                                 { 6, 2 } },
-      snk::direction_t::south,
+      snk::direction_t::down,
       board };
     snk::state_t state = snk::running_t{ given_snake, { 6, 2 }, 6, cur_time };
     auto new_time = cur_time + 1s;
@@ -113,7 +113,7 @@ suite const state_machine_suite = [] {
                                    { 6, 1 },
                                    { 6, 2 },
                                    { 5, 2 } },
-      snk::direction_t::west,
+      snk::direction_t::left,
       board };
     expect(eq(std::get<snk::fruit_needed_t>(state).snake(), expected_snake));
     snk::state_t expected_state = snk::fruit_needed_t{ snk::running_t{

@@ -55,15 +55,15 @@ public:
   }
 
   auto set_cur_direction(direction_t const dir) -> snake_t & {
-    if (dir == opposite_direction(cur_direction_)) return *this;
+    if (dir == opposite(cur_direction_)) return *this;
     cur_direction_ = dir;
     return *this;
   }
 
   friend auto operator==(snake_t const &, snake_t const &) -> bool = default;
 
-  friend auto operator<<(std::ostream &out, snake_t const &snake)
-    -> std::ostream & {
+  friend auto operator<<(std::ostream &out,
+    snake_t const &snake) -> std::ostream & {
     out << '[';
     out << '{';
     for (auto p : snake.body_points_) out << ' ' << p << ' ';

@@ -3,13 +3,13 @@
 namespace snk {
 auto to_point(direction_t dir) -> point_t {
   switch (dir) {
-  case direction_t::south:
+  case direction_t::down:
     return { 0, 1 };
-  case direction_t::north:
+  case direction_t::up:
     return { 0, -1 };
-  case direction_t::east:
+  case direction_t::right:
     return { 1, 0 };
-  case direction_t::west:
+  case direction_t::left:
     return { -1, 0 };
   }
   return { 0, 0 };// unreachable

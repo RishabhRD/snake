@@ -12,14 +12,14 @@ struct event_handler {
   auto operator()(event::quit, state_t const &) const { return closed_t{}; }
 
   auto operator()(event::start evt, state_t state) {
-    constexpr static std::size_t speed = 10;
+    constexpr static std::size_t speed = 1;
     constexpr static snk::point_t init_fruit_position = { 17, 10 };
 
     if (!rd::is<snk::closed_t>(state)) {
       snk::board_t board{ snk::game_data::num_tiles_x,
         snk::game_data::num_tiles_y };
       snk::snake_t init_snake{
-        { { 9, 10 }, { 10, 10 }, { 11, 10 } }, snk::direction_t::east, board
+        { { 9, 10 }, { 10, 10 }, { 11, 10 } }, snk::direction_t::right, board
       };
       state = snk::running_t{
         std::move(init_snake), init_fruit_position, speed, evt.cur_time

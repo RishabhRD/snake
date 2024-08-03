@@ -1,7 +1,6 @@
 #pragma once
 #include "direction.hpp"
 #include "point.hpp"
-#include <optional>
 #include <variant>
 #include <chrono>
 
@@ -11,15 +10,15 @@ enum class direction_change { left, right, up, down };
 inline auto to_direction(direction_change input) {
   switch (input) {
   case direction_change::left:
-    return direction_t::west;
+    return direction_t::left;
   case direction_change::right:
-    return direction_t::east;
+    return direction_t::right;
   case direction_change::up:
-    return direction_t::north;
+    return direction_t::up;
   case direction_change::down:
-    return direction_t::south;
+    return direction_t::down;
   }
-  return direction_t::north;
+  return direction_t::up;
 }
 
 struct quit {};

@@ -2,35 +2,34 @@
 
 #include <string_view>
 namespace snk {
-enum class direction_t { east, west, north, south };
+enum class direction_t { right, left, up, down };
 
-inline std::string_view to_string(direction_t dir) {
-  using namespace std::literals;
+inline direction_t opposite(direction_t dir) {
   switch (dir) {
-  case direction_t::east:
-    return "EAST";
-  case direction_t::west:
-    return "WEST";
-  case direction_t::north:
-    return "NORTH";
-  case direction_t::south:
-    return "SOUTH";
+  case direction_t::right:
+    return direction_t::left;
+  case direction_t::left:
+    return direction_t::right;
+  case direction_t::up:
+    return direction_t::down;
+  case direction_t::down:
+    return direction_t::up;
   }
-  return "Unreachable";// unreachable
+  return direction_t::up;// unreachable
 }
 
-inline direction_t opposite_direction(direction_t dir) {
+inline std::string_view to_string(direction_t dir) {
   switch (dir) {
-  case direction_t::east:
-    return direction_t::west;
-  case direction_t::west:
-    return direction_t::east;
-  case direction_t::north:
-    return direction_t::south;
-  case direction_t::south:
-    return direction_t::north;
+  case direction_t::up:
+    return "up";
+  case direction_t::down:
+    return "down";
+  case direction_t::left:
+    return "left";
+  case direction_t::right:
+    return "right";
   }
-  return direction_t::north;// unreachable
+  return "up";// unreachable
 }
 
 }// namespace snk
