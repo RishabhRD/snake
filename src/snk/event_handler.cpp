@@ -12,7 +12,7 @@ struct event_handler {
   auto operator()(event::quit, state_t const &) const { return closed_t{}; }
 
   auto operator()(event::start evt, state_t state) {
-    constexpr static std::size_t speed = 1;
+    constexpr static std::size_t speed = 10;
     constexpr static snk::point_t init_fruit_position = { 17, 10 };
 
     if (!rd::is<snk::closed_t>(state)) {
