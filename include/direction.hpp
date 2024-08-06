@@ -1,21 +1,21 @@
 #pragma once
 
 namespace snk {
-enum class direction_t { right, left, up, down };
+enum class direction { right, left, up, down };
 
 // Postcondition:
 //   - Returns oppisite direction of dir
-constexpr direction_t opposite(direction_t dir) {
+constexpr direction opposite(direction dir) {
   switch (dir) {
-  case direction_t::right:
-    return direction_t::left;
-  case direction_t::left:
-    return direction_t::right;
-  case direction_t::up:
-    return direction_t::down;
-  case direction_t::down:
-    return direction_t::up;
+  case direction::right:
+    return direction::left;
+  case direction::left:
+    return direction::right;
+  case direction::up:
+    return direction::down;
+  case direction::down:
+    return direction::up;
   }
-  return direction_t::up;// unreachable
+  return direction::up;// unreachable
 }
 }// namespace snk
