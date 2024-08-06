@@ -1,6 +1,8 @@
 #pragma once
 
+#include "direction.hpp"
 #include "point.hpp"
+#include "point_arithmetic.hpp"
 #include <span>
 #include <vector>
 
@@ -28,6 +30,12 @@ public:
   // Postcondition:
   //   - Returns head coordinate of snake
   auto head() const noexcept { return body_coords.back(); }
+
+  // Postcondition:
+  //   - adds adjacent_point_towards(head(), dir) as new head;
+  void grow(direction dir) {
+    body_coords.push_back(adjacent_point_towards(head(), dir));
+  }
 };
 
 template<Coordinate CoordType> snake(point<CoordType>) -> snake<CoordType>;
