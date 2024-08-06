@@ -1,5 +1,5 @@
 file(GLOB_RECURSE src_list "**.cpp")
 add_executable(snake ${src_list})
 target_include_directories(snake PRIVATE ../include)
-target_link_libraries(snake PUBLIC sfml::sfml boost::boost)
+target_link_libraries(snake PUBLIC sfml::sfml)
 target_link_libraries(snake PRIVATE project_options project_warnings)
