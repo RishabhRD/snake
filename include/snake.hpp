@@ -1,24 +1,22 @@
 #pragma once
 
-#include "bounded_point.hpp"
-#include "direction.hpp"
+#include "point.hpp"
 #include <vector>
 namespace snk {
-class snake {
+template<Coordinate CoordType> class snake {
   // Class Invariants:
-  //   - body_coords represents body coordinates of snake
-  //   - Last element would be snake head
-  //   - First element would be snake tail
-  //   - Every x coordinate of body_coords have same modulus
-  //   - Every y coordinate of body_coords have same modulus
-  //   - For every adjacent element of body_coords difference between x coord
-  //     is at max 1 and difference between y coord is at max 1
   //   - body_coords.size() >= 1
-  std::vector<bounded_point> body_coords;
+  //   - body_coords represents body coordinates of snake with last element
+  //     being head and first element being tail
+  //   - for every adjacent element (x, y) of body_coords:
+  //       x == y || is_adjacent(x, y)
+  std::vector<point<CoordType>> body_coords;
 
 public:
-  snake(bounded_point head_position) : body_coords{ head_position } {}
+  using coord_type = CoordType;
 
-  void move(direction_t dir) {}
+  snake(point<CoordType> head_position) : body_coords{ head_position } {}
 };
+
+template<Coordinate CoordType> snake(point<CoordType>) -> snake<CoordType>;
 }// namespace snk
