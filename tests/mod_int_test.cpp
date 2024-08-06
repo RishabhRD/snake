@@ -17,6 +17,7 @@ test("addition without wrappping") {
   mod_int b{ 1, 2 };
   auto c = a + b;
   req(c == mod_int{ 1, 2 });
+  req(c.modulus() == 2);
 }
 
 test("addition with wrappping") {
@@ -24,6 +25,7 @@ test("addition with wrappping") {
   mod_int b{ 1, 2 };
   auto c = a + b;
   req(c == mod_int{ 0, 2 });
+  req(c.modulus() == 2);
 }
 
 test("substraction without wrappping") {
@@ -31,6 +33,7 @@ test("substraction without wrappping") {
   mod_int b{ 1, 2 };
   auto c = a - b;
   req(c == mod_int{ 0, 2 });
+  req(c.modulus() == 2);
 }
 
 test("substraction with wrappping") {
@@ -38,6 +41,7 @@ test("substraction with wrappping") {
   mod_int b{ 1, 2 };
   auto c = a - b;
   req(c == mod_int{ 1, 2 });
+  req(c.modulus() == 2);
 }
 
 test("pre increment without wrapping") {
@@ -73,6 +77,7 @@ test("post increment without wrapping") {
   auto x = a++;
   req(a == mod_int{ 1, 2 });
   req(x == mod_int{ 0, 2 });
+  req(x.modulus() == 2);
 }
 
 test("post increment with wrapping") {
@@ -80,6 +85,7 @@ test("post increment with wrapping") {
   auto x = a++;
   req(a == mod_int{ 0, 2 });
   req(x == mod_int{ 1, 2 });
+  req(x.modulus() == 2);
 }
 
 test("post decrement without wrapping") {
@@ -87,6 +93,7 @@ test("post decrement without wrapping") {
   auto x = a--;
   req(a == mod_int{ 0, 2 });
   req(x == mod_int{ 1, 2 });
+  req(x.modulus() == 2);
 }
 
 test("post decrement with wrapping") {
@@ -94,4 +101,5 @@ test("post decrement with wrapping") {
   auto x = a--;
   req(a == mod_int{ 1, 2 });
   req(x == mod_int{ 0, 2 });
+  req(x.modulus() == 2);
 }
