@@ -5,6 +5,7 @@
 #include "point_arithmetic.hpp"
 #include <span>
 #include <vector>
+#include <algorithm>
 
 namespace snk {
 template<Coordinate CoordType> class snake {
@@ -35,6 +36,16 @@ public:
   //   - adds adjacent_point_towards(head(), dir) as new head;
   void grow(direction dir) {
     body_coords.push_back(adjacent_point_towards(head(), dir));
+  }
+
+  // Postcondition:
+  //   - for every adjacent points in body (a, b) a becomes b
+  //   - head() becomes adjacent_point_towards(head(), dir)
+  void move(direction dir) noexcept {
+    std::copy(std::next(std::begin(body_coords)),
+      std::end(body_coords),
+      std::begin(body_coords));
+    body_coords.back() = adjacent_point_towards(head(), dir);
   }
 };
 

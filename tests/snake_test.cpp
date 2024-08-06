@@ -17,3 +17,11 @@ test("grow should add head correctly") {
   req(
     std::ranges::equal(s.body(), std::vector{ point{ 0, 0 }, point{ 1, 0 } }));
 }
+
+test("move() should mutate body properly") {
+  snake s{ point{ 1, 1 } };
+  s.grow(direction::left);
+  s.move(direction::up);
+  req(
+    std::ranges::equal(s.body(), std::vector{ point{ 0, 1 }, point{ 0, 0 } }));
+}
