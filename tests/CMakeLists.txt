@@ -1,0 +1,5 @@
+file(GLOB_RECURSE test_list "*_test.cpp")
+add_executable(snake_tests ${test_list} "main.cpp")
+target_include_directories(snake_tests PRIVATE ../include)
+target_link_libraries(snake_tests PRIVATE project_warnings project_options)
+target_link_libraries(snake_tests PUBLIC doctest::doctest)

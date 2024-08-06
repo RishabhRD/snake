@@ -1,8 +1,0 @@
-file(GLOB_RECURSE test_list "*_test.cpp")
-file(GLOB_RECURSE src_list "../src/snk/*.cpp")
-add_executable(snake_tests ${src_list} ${test_list})
-target_include_directories(snake_tests PRIVATE ../include)
-target_link_libraries(snake_tests PRIVATE project_warnings)
-target_link_libraries(snake_tests PUBLIC doctest::doctest)
-target_link_libraries(snake_tests PRIVATE project_options)
-add_test(NAME snake_tests COMMAND snake_tests)

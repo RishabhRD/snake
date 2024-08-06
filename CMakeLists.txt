@@ -15,5 +15,5 @@ target_compile_features(project_options INTERFACE cxx_std_20)
 set_project_warnings(project_warnings)
 enable_sanitizers(project_options)
 
-add_subdirectory(test)
+add_subdirectory(tests)
 add_subdirectory(src)
