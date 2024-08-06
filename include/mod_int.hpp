@@ -27,5 +27,27 @@ public:
   constexpr friend mod_int operator-(mod_int a, mod_int b) {
     return { (a.val - b.val + a.mod) % a.mod, a.mod };
   }
+
+  constexpr friend mod_int &operator++(mod_int &a) {
+    a.val = (a.val + 1) % a.mod;
+    return a;
+  }
+
+  constexpr friend mod_int operator++(mod_int &a, int) {
+    mod_int old = a;
+    ++a;
+    return old;
+  }
+
+  constexpr friend mod_int &operator--(mod_int &a) {
+    a.val = (a.val - 1 + a.mod) % a.mod;
+    return a;
+  }
+
+  constexpr friend mod_int operator--(mod_int &a, int) {
+    mod_int old = a;
+    --a;
+    return old;
+  }
 };
 }// namespace snk
