@@ -8,6 +8,10 @@ test("have correct modulus") {
   req(m.modulus() == 2);
 }
 
+test("have correct value for < 0") {
+  req(mod_int{-1, 2} == mod_int{1, 2});
+}
+
 test("addition without wrappping") {
   mod_int a{ 0, 2 };
   mod_int b{ 1, 2 };
