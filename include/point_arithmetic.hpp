@@ -5,7 +5,7 @@
 
 namespace snk {
 template<Coordinate CoordType>
-constexpr auto is_adjacent(point<CoordType> p1, point<CoordType> p2) {
+constexpr auto is_adjacent(point<CoordType> p1, point<CoordType> p2) noexcept {
   auto next = [](auto x) { return ++x; };
   auto prev = [](auto x) { return --x; };
   auto is_coord_adjacent = [next, prev](auto a, auto b) {
@@ -18,7 +18,8 @@ constexpr auto is_adjacent(point<CoordType> p1, point<CoordType> p2) {
 // Postcondition:
 //   - returns adjecent point to p in direction dir
 template<Coordinate CoordType>
-constexpr auto adjacent_point_towards(point<CoordType> p, direction dir) {
+constexpr auto adjacent_point_towards(point<CoordType> p,
+  direction dir) noexcept {
   if (dir == direction::right)
     ++p.x;
   else if (dir == direction::left)
