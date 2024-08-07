@@ -24,18 +24,14 @@ public:
   // Postcondition:
   //   - Returns snake body coordinates st for every adjacent element
   //     (t, h) is st: t comes after h in snake body
-  std::vector<point<CoordType>> const& body() const noexcept {
+  std::span<point<CoordType> const> body() const noexcept {
     return body_coords;
   }
 
   // Postcondition:
-  //   - Returns head coordinate of snake
-  auto head() const noexcept { return body_coords.back(); }
-
-  // Postcondition:
   //   - adds adjacent_point_towards(head(), dir) as new head;
   void grow(direction dir) {
-    body_coords.push_back(adjacent_point_towards(head(), dir));
+    body_coords.push_back(adjacent_point_towards(body_coords.back(), dir));
   }
 
   // Postcondition:
@@ -45,7 +41,7 @@ public:
     std::copy(std::next(std::begin(body_coords)),
       std::end(body_coords),
       std::begin(body_coords));
-    body_coords.back() = adjacent_point_towards(head(), dir);
+    body_coords.back() = adjacent_point_towards(body_coords.back(), dir);
   }
 };
 
