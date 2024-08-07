@@ -19,18 +19,16 @@ namespace __details {
 
   inline auto fill_fruit_matrix(
     std::vector<std::vector<board_pos_info>> &matrix,
-    point<mod_int> const &fruit) {
-    auto fruit_x = static_cast<std::size_t>(fruit.x.value());
-    auto fruit_y = static_cast<std::size_t>(fruit.y.value());
-    matrix[fruit_y][fruit_x] = board_pos_info::fruit;
+    point<std::size_t> const &fruit) {
+    matrix[fruit.y][fruit.x] = board_pos_info::fruit;
   }
 }// namespace __details
 
 // Precondition:
 //   - board.snake.head().x.modulus() == width
 //   - board.snake.head().y.modulus() == height
-//   - board.fruit_pos.x.modulus() == width
-//   - board.fruit_pos.y.modulus() == height
+//   - board.fruit_pos.x < width
+//   - board.fruit_pos.y < height
 // Postcondition:
 //   - Returns a matrix with #rows = board.height, #cols = board.width
 //   - if matrix[y][x] represents board at position (x, y) is occupied with

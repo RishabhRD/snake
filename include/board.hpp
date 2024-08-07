@@ -14,7 +14,7 @@ struct board {
   std::size_t const width;
   std::size_t const height;
   snk::snake<mod_int> snake;
-  snk::point<mod_int> fruit_pos;
+  snk::point<std::size_t> fruit_pos;
 };
 
 enum class board_pos_info {
