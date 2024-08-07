@@ -1,5 +1,6 @@
 #pragma once
 
+#include "matrix_algorithm.hpp"
 #include "board.hpp"
 #include "mod_int.hpp"
 #include "point.hpp"
@@ -38,5 +39,21 @@ inline auto create_board_matrix(snk::board const &b) {
   __details::fill_snake_matrix(matrix, b.snake);
   __details::fill_fruit_matrix(matrix, b.fruit_pos);
   return matrix;
+}
+
+// Precondition:
+//   - matrix[y][x] represents the board position info at position (x, y)
+// Postcondition:
+//   - returns a point (x, y) that is empty cell
+//   - in case of no empty point is found (width, height) is returned
+template<typename RandomGenerator>
+inline auto select_empty_cell(
+  std::vector<std::vector<board_pos_info>> const &matrix,
+  RandomGenerator &&generator) {
+  auto const empty_cnt = nostd::count(matrix, board_pos_info::empty);
+  if (empty_cnt == 0) return point{ matrix[0].size(), matrix.size() };
+  auto const nth = generator(1, empty_cnt);
+  auto const cell = nostd::find_n(matrix, board_pos_info::empty, nth);
+  return point{ cell.second, cell.first };
 }
 }// namespace snk
