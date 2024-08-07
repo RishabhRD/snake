@@ -24,7 +24,7 @@ public:
   // Postcondition:
   //   - Returns snake body coordinates st for every adjacent element
   //     (t, h) is st: t comes after h in snake body
-  std::span<point<CoordType> const> body() const noexcept {
+  std::vector<point<CoordType>> const& body() const noexcept {
     return body_coords;
   }
 
