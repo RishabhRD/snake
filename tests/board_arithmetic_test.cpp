@@ -4,7 +4,8 @@
 #include "doctest.hpp"
 
 namespace board_arithmetic_test {
-constexpr auto s = snk::board_pos_info::snake;
+constexpr auto s = snk::board_pos_info::snake_body;
+constexpr auto sh = snk::board_pos_info::snake_head;
 constexpr auto e = snk::board_pos_info::empty;
 constexpr auto f = snk::board_pos_info::fruit;
 }  // namespace board_arithmetic_test
@@ -17,12 +18,12 @@ test("returns correct board fill matrix") {
   snk::board board{2, 3, std::move(snake), {1, 1}};
   auto matrix = snk::create_board_matrix(board);
   std::vector<std::vector<snk::board_pos_info>> expected{
-      {s, s}, {e, f}, {e, e}};
+      {s, sh}, {e, f}, {e, e}};
   req(matrix == expected);
 }
 
 test("select empty cell") {
-  std::vector<std::vector<snk::board_pos_info>> matrix{{s, s}, {e, f}, {e, f}};
+  std::vector<std::vector<snk::board_pos_info>> matrix{{s, sh}, {e, f}, {e, f}};
   auto pnt = snk::select_empty_cell(matrix, [](auto, auto n) { return n; });
   req(pnt.x == 0);
   req(pnt.y == 2);

@@ -20,7 +20,8 @@ struct board {
 
 enum class board_pos_info {
   empty,
-  snake,
+  snake_body,
+  snake_head,
   fruit,
 };
 }  // namespace snk

@@ -13,8 +13,11 @@ inline auto fill_snake_matrix(std::vector<std::vector<board_pos_info>>& matrix,
   for (auto const& point : snake.body()) {
     auto const x = static_cast<std::size_t>(point.x.value());
     auto const y = static_cast<std::size_t>(point.y.value());
-    matrix[y][x] = board_pos_info::snake;
+    matrix[y][x] = board_pos_info::snake_body;
   }
+  auto const head_x = static_cast<std::size_t>(snake.head().x.value());
+  auto const head_y = static_cast<std::size_t>(snake.head().y.value());
+  matrix[head_y][head_x] = board_pos_info::snake_head;
 }
 
 inline auto fill_fruit_matrix(std::vector<std::vector<board_pos_info>>& matrix,
