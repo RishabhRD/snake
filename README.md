@@ -1,5 +1,7 @@
 # Snake
 
+**NOTE: Unstable branch use snakev1 for gameplay right now**
+
 A snake game trying to be reasonable. My main motive of writing this snake game is to test my programming skills.
 What I tried to enforce throught the program:
 
