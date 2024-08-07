@@ -11,9 +11,15 @@ namespace snk {
 // Feel free to raise a PR if you can figure it out or an issue if you can
 // justify the current decision :)
 struct board {
-  std::size_t height;
-  std::size_t width;
-  snake<mod_int> snake;
-  point<mod_int> fruit_pos;
+  std::size_t const width;
+  std::size_t const height;
+  snk::snake<mod_int> snake;
+  snk::point<mod_int> fruit_pos;
+};
+
+enum class board_pos_info {
+  empty,
+  snake,
+  fruit,
 };
 }// namespace snk
