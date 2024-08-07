@@ -28,3 +28,10 @@ test("select empty cell") {
   req(pnt.x == 0);
   req(pnt.y == 2);
 }
+
+test("select empty cell with no empty cell") {
+  std::vector<std::vector<snk::board_pos_info>> matrix{{s, sh}, {s, s}, {s, s}};
+  auto pnt = snk::select_empty_cell(matrix, [](auto, auto n) { return n; });
+  req(pnt.x == 2);
+  req(pnt.y == 3);
+}
