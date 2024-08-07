@@ -33,7 +33,7 @@ namespace __details {
 //   - Returns a matrix with #rows = board.height, #cols = board.width
 //   - if matrix[y][x] represents board at position (x, y) is occupied with
 //     matrix[y][x] value
-inline auto create_board_position_info_matrix(snk::board const &b) {
+inline auto create_board_matrix(snk::board const &b) {
   std::vector matrix(b.height, std::vector(b.width, board_pos_info::empty));
   __details::fill_snake_matrix(matrix, b.snake);
   __details::fill_fruit_matrix(matrix, b.fruit_pos);
