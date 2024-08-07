@@ -8,9 +8,7 @@ test("have correct modulus") {
   req(m.modulus() == 2);
 }
 
-test("have correct value for < 0") {
-  req(mod_int{-1, 2} == mod_int{1, 2});
-}
+test("have correct value for < 0") { req(mod_int{ -1, 2 } == mod_int{ 1, 2 }); }
 
 test("addition without wrappping") {
   mod_int a{ 0, 2 };
@@ -102,4 +100,17 @@ test("post decrement with wrapping") {
   req(a == mod_int{ 1, 2 });
   req(x == mod_int{ 0, 2 });
   req(x.modulus() == 2);
+}
+
+test("equal mod_int have equal value") {
+  mod_int a{ 0, 2 };
+  mod_int b{ 2, 2 };
+  req(a.value() == b.value());
+  req(a.modulus() == b.modulus());
+}
+
+test("stores correct value inside") {
+  mod_int a{ 0, 2 };
+  req(a.value() == 0);
+  req(a.modulus() == 2);
 }
