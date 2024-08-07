@@ -1,14 +1,15 @@
 #pragma once
 
+#include <algorithm>
+#include <span>
+#include <vector>
 #include "direction.hpp"
 #include "point.hpp"
 #include "point_arithmetic.hpp"
-#include <span>
-#include <vector>
-#include <algorithm>
 
 namespace snk {
-template<Coordinate CoordType> class snake {
+template <Coordinate CoordType>
+class snake {
   // Class Invariants:
   //   - body_coords.size() >= 1
   //   - Every adjacent element (t, h) is st: t comes after h in snake body
@@ -16,10 +17,10 @@ template<Coordinate CoordType> class snake {
   //       x == y || is_adjacent(x, y)
   std::vector<point<CoordType>> body_coords;
 
-public:
+ public:
   using coord_type = CoordType;
 
-  snake(point<CoordType> head_position) : body_coords{ head_position } {}
+  snake(point<CoordType> head_position) : body_coords{head_position} {}
 
   // Postcondition:
   //   - Returns snake body (including head) coordinates st for every adjacent
@@ -42,12 +43,12 @@ public:
   //   - for every adjacent points in body (a, b) a becomes b
   //   - head() becomes adjacent_point_towards(head(), dir)
   void move(direction dir) noexcept {
-    std::copy(std::next(std::begin(body_coords)),
-      std::end(body_coords),
-      std::begin(body_coords));
+    std::copy(std::next(std::begin(body_coords)), std::end(body_coords),
+              std::begin(body_coords));
     body_coords.back() = adjacent_point_towards(head(), dir);
   }
 };
 
-template<Coordinate CoordType> snake(point<CoordType>) -> snake<CoordType>;
-}// namespace snk
+template <Coordinate CoordType>
+snake(point<CoordType>) -> snake<CoordType>;
+}  // namespace snk

@@ -1,22 +1,22 @@
 #pragma once
+#include <chrono>
+#include <variant>
 #include "direction.hpp"
 #include "point.hpp"
-#include <variant>
-#include <chrono>
 
 namespace snk::event {
 enum class direction_change { left, right, up, down };
 
 inline auto to_direction(direction_change input) {
   switch (input) {
-  case direction_change::left:
-    return direction_t::left;
-  case direction_change::right:
-    return direction_t::right;
-  case direction_change::up:
-    return direction_t::up;
-  case direction_change::down:
-    return direction_t::down;
+    case direction_change::left:
+      return direction_t::left;
+    case direction_change::right:
+      return direction_t::right;
+    case direction_change::up:
+      return direction_t::up;
+    case direction_change::down:
+      return direction_t::down;
   }
   return direction_t::up;
 }
@@ -37,6 +37,6 @@ struct fruit_generated {
   point_t fruit_pos;
 };
 
-using event_t = std::
-  variant<direction_change, quit, play_pause, start, timeout, fruit_generated>;
-}// namespace snk::event
+using event_t = std::variant<direction_change, quit, play_pause, start, timeout,
+                             fruit_generated>;
+}  // namespace snk::event

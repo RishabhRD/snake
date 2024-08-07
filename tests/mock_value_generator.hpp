@@ -1,7 +1,9 @@
 #pragma once
 
 #include <vector>
-template<typename T> struct mock_generator {
+
+template <typename T>
+struct mock_generator {
   explicit mock_generator(std::vector<T> vec) : vec_(vec), cur_(begin(vec)) {}
 
   auto operator()() {
@@ -10,7 +12,7 @@ template<typename T> struct mock_generator {
     return val;
   }
 
-private:
+ private:
   std::vector<T> vec_;
   typename std::vector<T>::iterator cur_;
 };

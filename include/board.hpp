@@ -1,9 +1,10 @@
 #pragma once
 
+#include <cstddef>
+#include "mod_int.hpp"
 #include "point.hpp"
 #include "snake.hpp"
-#include "mod_int.hpp"
-#include <cstddef>
+
 namespace snk {
 // TODO: I couldn't find any invariants this class can hold in a convincing
 // way. There is surely some constraints like fruit should be inside board
@@ -22,4 +23,4 @@ enum class board_pos_info {
   snake,
   fruit,
 };
-}// namespace snk
+}  // namespace snk

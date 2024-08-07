@@ -1,25 +1,29 @@
 #pragma once
 
-#include "point.hpp"
 #include "direction.hpp"
+#include "point.hpp"
 
 namespace snk {
-template<Coordinate CoordType>
+template <Coordinate CoordType>
 constexpr auto is_adjacent(point<CoordType> p1, point<CoordType> p2) noexcept {
-  auto next = [](auto x) { return ++x; };
-  auto prev = [](auto x) { return --x; };
+  auto next = [](auto x) {
+    return ++x;
+  };
+  auto prev = [](auto x) {
+    return --x;
+  };
   auto is_coord_adjacent = [next, prev](auto a, auto b) {
     return next(a) == b || prev(a) == b;
   };
-  return (is_coord_adjacent(p1.x, p2.x) && p1.y == p2.y)
-         || (is_coord_adjacent(p1.y, p2.y) && (p1.x == p2.x));
+  return (is_coord_adjacent(p1.x, p2.x) && p1.y == p2.y) ||
+         (is_coord_adjacent(p1.y, p2.y) && (p1.x == p2.x));
 }
 
 // Postcondition:
 //   - returns adjecent point to p in direction dir
-template<Coordinate CoordType>
+template <Coordinate CoordType>
 constexpr auto adjacent_point_towards(point<CoordType> p,
-  direction dir) noexcept {
+                                      direction dir) noexcept {
   if (dir == direction::right)
     ++p.x;
   else if (dir == direction::left)
@@ -32,4 +36,4 @@ constexpr auto adjacent_point_towards(point<CoordType> p,
 
   return p;
 }
-}// namespace snk
+}  // namespace snk
