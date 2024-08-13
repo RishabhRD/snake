@@ -2,9 +2,9 @@
 
 #include <variant>
 #include "event.hpp"
-#include "game.hpp"
 #include "game_properties.hpp"
 #include "state.hpp"
+#include "state_arithmetic.hpp"
 
 namespace snk {
 struct event_handler {
