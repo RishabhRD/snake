@@ -1,6 +1,6 @@
 #pragma once
 
-namespace snk {
+namespace snk::ui {
 struct color {
   unsigned int r;
   unsigned int g;
@@ -8,4 +8,4 @@ struct color {
 
   friend bool operator==(color const&, color const&) = default;
 };
-}  // namespace snk
+}  // namespace snk::ui
