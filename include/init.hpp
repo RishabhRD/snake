@@ -9,10 +9,12 @@
 namespace snk {
 inline app_properties init_config(int argc, char** argv) {
   snk::snake snake{point<mod_int>{{2, 30}, {15, 30}}};
+  snake.grow(direction::right);
+  snake.grow(direction::right);
   snk::game_properties game_properties{
       .board_width = 30,
       .board_height = 30,
-      .init_speed = 3,
+      .init_speed = 8,
       .init_fruit_pos = {15, 15},
       .init_snake = std::move(snake),
   };
