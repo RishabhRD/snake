@@ -38,4 +38,13 @@ inline auto process_event(event_handler const& handler, events::event evt,
                           states::state state) {
   return std::visit<states::state>(handler, evt, std::move(state));
 }
+
+inline states::state apply_events(event_handler const& handler,
+                                  std::vector<events::event> const& evts,
+                                  states::state state) {
+  for (auto evt : evts) {
+    state = process_event(handler, evt, std::move(state));
+  }
+  return state;
+}
 }  // namespace snk
