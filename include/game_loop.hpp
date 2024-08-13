@@ -26,8 +26,8 @@ void run(states::state state, window_t& win, event_handler const& handler,
     while (accumulated_time >= tick_threshold) {
       state = after_time(tick_threshold, std::move(state), rand);
       accumulated_time -= tick_threshold;
-      render(renderer, state, win);
     }
+    render(renderer, state, win);
   }
 }
 }  // namespace snk::gameloop
