@@ -20,15 +20,15 @@ struct board {
 };
 
 class cell_info {
-  // Class Invariants:
-  //   - rep[0] represents if cell has snake body
-  //   - rep[1] represents if cell has snake head
-  //   - rep[2] represents if cell has fruit
-  std::bitset<3> rep;
-
   static constexpr std::size_t body = 0;
   static constexpr std::size_t head = 1;
   static constexpr std::size_t fruit = 2;
+
+  // Class Invariants:
+  //   - rep[body] represents if cell has snake body
+  //   - rep[head] represents if cell has snake head
+  //   - rep[fruit] represents if cell has fruit
+  std::bitset<3> rep;
 
  public:
   auto is_empty() const noexcept { return rep.none(); }
@@ -50,8 +50,6 @@ class cell_info {
   auto clear_body() noexcept { return rep.reset(body); }
 
   auto clear_fruit() noexcept { return rep.reset(fruit); }
-
-  auto get_rep() const noexcept { return rep.to_ulong(); }
 
   friend bool operator==(cell_info const&, cell_info const&) = default;
 };
