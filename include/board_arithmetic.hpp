@@ -57,7 +57,8 @@ std::optional<point<std::size_t>> select_empty_cell(
   auto const empty_cnt = nostd::count(matrix, cell_info{});
   if (empty_cnt == 0)
     return point{matrix[0].size(), matrix.size()};
-  auto const nth = generator(1, empty_cnt);
+  auto const nth =
+      static_cast<std::size_t>(generator(1, static_cast<int>(empty_cnt)));
   auto const cell = nostd::find_n(matrix, cell_info{}, nth);
   return point{cell.second, cell.first};
 }
