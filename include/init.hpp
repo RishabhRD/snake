@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdlib>
+#include <stdexcept>
 #include <string>
 #include "property.hpp"
 
@@ -15,11 +16,16 @@ inline app_properties init_config(int argc, char** argv) {
       .init_snake = std::move(snake),
   };
   if (argc >= 2) {
-    auto new_speed = std::stoi(argv[1]);
-    if (new_speed <= 0) {
-      throw std::string{"bad speed "} + "0";
+    try {
+      auto new_speed = std::stoi(argv[1]);
+      if (new_speed <= 0) {
+        throw std::runtime_error{std::string{"bad speed value: "} + '0'};
+      }
+      game_properties.init_speed = static_cast<std::size_t>(new_speed);
+    } catch (...) {
+      throw std::runtime_error{std::string{"bad speed value: "} +
+                               std::string{argv[1]}};
     }
-    game_properties.init_speed = static_cast<std::size_t>(new_speed);
   }
   return app_properties{
       .game_properties = std::move(game_properties),
