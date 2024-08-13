@@ -9,7 +9,6 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Window/Event.hpp>
 #include <cstddef>
-#include <iostream>
 #include <optional>
 #include <vector>
 #include "direction.hpp"
