@@ -2,6 +2,7 @@
 
 #include <variant>
 #include "event.hpp"
+#include "game.hpp"
 #include "game_properties.hpp"
 #include "state.hpp"
 
@@ -24,8 +25,9 @@ struct event_handler {
     return std::move(state.running_game);
   }
 
-  // TODO: handle game start
-  auto operator()(events::start, auto const&) const { return states::quit{}; }
+  auto operator()(events::start, auto const&) const {
+    return init_game(game_properties);
+  }
 
   auto operator()(events::start, states::quit) const { return states::quit{}; }
 
