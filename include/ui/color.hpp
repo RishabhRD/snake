@@ -2,9 +2,9 @@
 
 namespace snk::ui {
 struct color {
-  unsigned int r;
-  unsigned int g;
-  unsigned int b;
+  unsigned char r;
+  unsigned char g;
+  unsigned char b;
 
   friend bool operator==(color const&, color const&) = default;
 };
