@@ -1,6 +1,7 @@
 #pragma once
 
 #include <chrono>
+#include <variant>
 #include "board.hpp"
 #include "direction.hpp"
 
@@ -23,4 +24,10 @@ struct paused {
 struct init {
   friend constexpr bool operator==(init const&, init const&);
 };
+
+struct quit {
+  friend constexpr bool operator==(quit const&, quit const&);
+};
+
+using state = std::variant<running, paused, init, quit>;
 }  // namespace snk::states
