@@ -11,7 +11,7 @@ struct running {
   snk::direction cur_snake_dir;
   snk::direction next_snake_dir;
   std::chrono::milliseconds time_since_last_move;
-  std::size_t speed;
+  std::chrono::milliseconds move_threshold;
 
   friend constexpr bool operator==(running const&, running const&);
 };
