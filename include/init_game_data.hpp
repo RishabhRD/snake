@@ -1,7 +1,5 @@
 #pragma once
 
-#include <cstddef>
-
 namespace snk::game_data {
 constexpr static int num_tiles_x = 20;
 constexpr static int num_tiles_y = 20;
