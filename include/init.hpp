@@ -4,6 +4,7 @@
 #include <stdexcept>
 #include <string>
 #include "property.hpp"
+#include "ui/color.hpp"
 
 namespace snk {
 inline app_properties init_config(int argc, char** argv) {
@@ -14,6 +15,14 @@ inline app_properties init_config(int argc, char** argv) {
       .init_speed = 3,
       .init_fruit_pos = {15, 15},
       .init_snake = std::move(snake),
+  };
+
+  snk::ui_properties ui_properties{
+      .scale_factor = 20,
+      .bg_color = ui::color{0, 0, 0},
+      .head_color = ui::color{0, 0, 255},
+      .body_color = ui::color{0, 255, 0},
+      .fruit_color = ui::color{255, 0, 0},
   };
   if (argc >= 2) {
     try {
@@ -29,7 +38,7 @@ inline app_properties init_config(int argc, char** argv) {
   }
   return app_properties{
       .game_properties = std::move(game_properties),
-      .ui_properties = {10},
+      .ui_properties = ui_properties,
       .title = "Snake",
   };
 }

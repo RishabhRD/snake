@@ -5,6 +5,7 @@
 #include "mod_int.hpp"
 #include "point.hpp"
 #include "snake.hpp"
+#include "ui/color.hpp"
 
 namespace snk {
 struct game_properties {
@@ -17,6 +18,10 @@ struct game_properties {
 
 struct ui_properties {
   std::size_t scale_factor;
+  ui::color bg_color;
+  ui::color head_color;
+  ui::color body_color;
+  ui::color fruit_color;
 };
 
 struct app_properties {

@@ -1,6 +1,10 @@
 #pragma once
 
+#include <SFML/Graphics/Image.hpp>
+#include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Texture.hpp>
 #include <SFML/Window/Event.hpp>
 #include <cstddef>
 #include <optional>
@@ -8,6 +12,7 @@
 #include "direction.hpp"
 #include "event.hpp"
 #include "property.hpp"
+#include "ui/color.hpp"
 
 namespace snk::ui {
 inline std::optional<events::event> transform_event(sf::Event const& evt) {
@@ -47,10 +52,17 @@ inline std::optional<events::event> transform_event(sf::Event const& evt) {
 
 class sfml_window {
   sf::RenderWindow win;
+  sf::Image buffer;
+  sf::Texture texture;
 
  public:
-  sfml_window(unsigned int width, unsigned int height, std::string_view title)
-      : win(sf::VideoMode(width, height), title.data(), sf::Style::None) {}
+  sfml_window(unsigned int width, unsigned int height, color bg,
+              std::string_view title)
+      : win(sf::VideoMode(width, height), title.data(), sf::Style::None) {
+    buffer.create(width, height, sf::Color{bg.r, bg.g, bg.b});
+    texture.loadFromImage(buffer);
+    repaint();
+  }
 
   inline std::vector<events::event> poll_events() {
     std::vector<events::event> res;
@@ -66,6 +78,18 @@ class sfml_window {
   inline std::size_t width() const { return win.getSize().x; }
 
   inline std::size_t height() const { return win.getSize().y; }
+
+  void set_pixel_color(std::size_t x, std::size_t y, color c) {
+    buffer.setPixel(static_cast<unsigned int>(x), static_cast<unsigned int>(y),
+                    sf::Color(c.r, c.g, c.b));
+    texture.update(buffer);
+  }
+
+  void repaint() {
+    sf::Sprite sprite{texture};
+    win.draw(sprite);
+    win.display();
+  }
 };
 
 inline auto make_window(app_properties const& prop) {
@@ -73,6 +97,6 @@ inline auto make_window(app_properties const& prop) {
       prop.game_properties.board_width * prop.ui_properties.scale_factor);
   unsigned int height = static_cast<unsigned int>(
       prop.game_properties.board_height * prop.ui_properties.scale_factor);
-  return sfml_window{width, height, prop.title};
+  return sfml_window{width, height, prop.ui_properties.bg_color, prop.title};
 }
 }  // namespace snk::ui
