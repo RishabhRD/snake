@@ -13,30 +13,30 @@ struct running {
   std::chrono::milliseconds time_since_last_move;
   std::chrono::milliseconds move_threshold;
 
-  friend constexpr bool operator==(running const&, running const&);
+  friend bool operator==(running const&, running const&) = default;
 };
 
 struct paused {
   running running_game;
-  friend constexpr bool operator==(paused const&, paused const&);
+  friend bool operator==(paused const&, paused const&) = default;
 };
 
 struct init {
-  friend constexpr bool operator==(init const&, init const&);
+  friend bool operator==(init const&, init const&) = default;
 };
 
 struct quit {
-  friend constexpr bool operator==(quit const&, quit const&);
+  friend bool operator==(quit const&, quit const&) = default;
 };
 
 struct lost {
   running running_game;
-  friend constexpr bool operator==(lost const&, lost const&);
+  friend bool operator==(lost const&, lost const&) = default;
 };
 
 struct win {
   running running_game;
-  friend constexpr bool operator==(win const&, win const&);
+  friend bool operator==(win const&, win const&) = default;
 };
 
 using state = std::variant<running, paused, init, quit, lost, win>;

@@ -47,6 +47,8 @@ class snake {
               std::begin(body_coords));
     body_coords.back() = adjacent_point_towards(head(), dir);
   }
+
+  friend bool operator==(snake const&, snake const&) = default;
 };
 
 template <Coordinate CoordType>

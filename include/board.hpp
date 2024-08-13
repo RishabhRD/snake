@@ -17,6 +17,8 @@ struct board {
   std::size_t height;
   snk::snake<mod_int> snake;
   snk::point<std::size_t> fruit_pos;
+
+  friend bool operator==(board const&, board const&) = default;
 };
 
 class cell_info {
