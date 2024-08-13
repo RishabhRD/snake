@@ -44,22 +44,23 @@ inline std::optional<events::event> transform_event(sf::Event const& evt) {
   }
 }
 
-inline std::vector<events::event> poll_events(sf::Window& win) {
-  std::vector<events::event> res;
-  sf::Event evt{};
-  while (win.pollEvent(evt)) {
-    auto transformed_event = transform_event(evt);
-    if (transformed_event)
-      res.push_back(transformed_event.value());
+class sfml_window {
+  sf::Window win;
+
+ public:
+  inline std::vector<events::event> poll_events() {
+    std::vector<events::event> res;
+    sf::Event evt{};
+    while (win.pollEvent(evt)) {
+      auto transformed_event = transform_event(evt);
+      if (transformed_event)
+        res.push_back(transformed_event.value());
+    }
+    return res;
   }
-  return res;
-}
 
-inline std::size_t width(sf::Window const& win) {
-  return win.getSize().x;
-}
+  inline std::size_t width() const { return win.getSize().x; }
 
-inline std::size_t height(sf::Window const& win) {
-  return win.getSize().y;
-}
+  inline std::size_t height() const { return win.getSize().y; }
+};
 }  // namespace snk::ui
