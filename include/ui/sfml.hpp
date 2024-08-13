@@ -1,12 +1,13 @@
 #pragma once
 
+#include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Event.hpp>
-#include <SFML/Window/Window.hpp>
 #include <cstddef>
 #include <optional>
 #include <vector>
 #include "direction.hpp"
 #include "event.hpp"
+#include "property.hpp"
 
 namespace snk::ui {
 inline std::optional<events::event> transform_event(sf::Event const& evt) {
@@ -45,9 +46,12 @@ inline std::optional<events::event> transform_event(sf::Event const& evt) {
 }
 
 class sfml_window {
-  sf::Window win;
+  sf::RenderWindow win;
 
  public:
+  sfml_window(unsigned int width, unsigned int height, std::string_view title)
+      : win(sf::VideoMode(width, height), title.data(), sf::Style::None) {}
+
   inline std::vector<events::event> poll_events() {
     std::vector<events::event> res;
     sf::Event evt{};
@@ -63,4 +67,12 @@ class sfml_window {
 
   inline std::size_t height() const { return win.getSize().y; }
 };
+
+inline auto make_window(app_properties const& prop) {
+  unsigned int width = static_cast<unsigned int>(
+      prop.game_properties.board_width * prop.ui_properties.scale_factor);
+  unsigned int height = static_cast<unsigned int>(
+      prop.game_properties.board_height * prop.ui_properties.scale_factor);
+  return sfml_window{width, height, prop.title};
+}
 }  // namespace snk::ui
