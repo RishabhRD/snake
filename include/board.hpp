@@ -13,8 +13,8 @@ namespace snk {
 // Feel free to raise a PR if you can figure it out or an issue if you can
 // justify the current decision :)
 struct board {
-  std::size_t const width;
-  std::size_t const height;
+  std::size_t width;
+  std::size_t height;
   snk::snake<mod_int> snake;
   snk::point<std::size_t> fruit_pos;
 };
