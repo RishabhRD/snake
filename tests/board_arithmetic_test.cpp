@@ -36,3 +36,12 @@ test("select empty cell with no empty cell") {
   req(pnt.x == 2);
   req(pnt.y == 3);
 }
+
+test("has_collision") {
+  snk::snake<snk::mod_int> snake{{{0, 2}, {0, 3}}};
+  snk::board board{2, 3, std::move(snake), {1, 1}};
+  board.snake.grow(snk::direction::right);
+  req_false(snk::has_collision(board));
+  board.snake.grow(snk::direction::right);
+  req(snk::has_collision(board));
+}

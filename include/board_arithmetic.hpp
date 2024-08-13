@@ -5,6 +5,7 @@
 #include "mod_int.hpp"
 #include "point.hpp"
 #include "snake.hpp"
+#include "snake_arithmetic.hpp"
 
 namespace snk {
 namespace __details {
@@ -57,5 +58,11 @@ inline auto select_empty_cell(std::vector<std::vector<cell_info>> const& matrix,
   auto const nth = generator(1, empty_cnt);
   auto const cell = nostd::find_n(matrix, cell_info{}, nth);
   return point{cell.second, cell.first};
+}
+
+// Postcondition:
+//   - returns is_collided_to_self(board.snake)
+inline auto has_collision(snk::board const& board) {
+  return is_collided_to_self(board.snake);
 }
 }  // namespace snk
