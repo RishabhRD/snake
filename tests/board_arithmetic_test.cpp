@@ -26,15 +26,16 @@ test("returns correct board fill matrix") {
 test("select empty cell") {
   std::vector<std::vector<snk::cell_info>> matrix{{b, h}, {e, f}, {e, f}};
   auto pnt = snk::select_empty_cell(matrix, [](auto, auto n) { return n; });
-  req(pnt.x == 0);
-  req(pnt.y == 2);
+  req(pnt.has_value());
+  req(pnt->x == 0);
+  req(pnt->y == 2);
 }
 
 test("select empty cell with no empty cell") {
   std::vector<std::vector<snk::cell_info>> matrix{{b, h}, {b, b}, {b, b}};
   auto pnt = snk::select_empty_cell(matrix, [](auto, auto n) { return n; });
-  req(pnt.x == 2);
-  req(pnt.y == 3);
+  req(pnt->x == 2);
+  req(pnt->y == 3);
 }
 
 test("has_collision") {
@@ -44,4 +45,12 @@ test("has_collision") {
   req_false(snk::has_collision(board));
   board.snake.grow(snk::direction::right);
   req(snk::has_collision(board));
+}
+
+test("ate_fruit") {
+  snk::snake<snk::mod_int> snake{{{0, 2}, {0, 3}}};
+  snk::board board{2, 3, std::move(snake), {0, 0}};
+  req(snk::ate_fruit(board));
+  board.snake.grow(snk::direction::right);
+  req_false(snk::ate_fruit(board));
 }

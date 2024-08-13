@@ -1,5 +1,6 @@
 #pragma once
 
+#include <optional>
 #include "board.hpp"
 #include "matrix_algorithm.hpp"
 #include "mod_int.hpp"
@@ -48,10 +49,11 @@ inline auto create_board_matrix(snk::board const& b) {
 //   - matrix[y][x] represents the board position info at position (x, y)
 // Postcondition:
 //   - returns a point (x, y) that is empty cell
-//   - in case of no empty point is found (width, height) is returned
+//   - in case of no empty point is found nullopt is returned
 template <typename RandomGenerator>
-inline auto select_empty_cell(std::vector<std::vector<cell_info>> const& matrix,
-                              RandomGenerator&& generator) {
+std::optional<point<std::size_t>> select_empty_cell(
+    std::vector<std::vector<cell_info>> const& matrix,
+    RandomGenerator&& generator) {
   auto const empty_cnt = nostd::count(matrix, cell_info{});
   if (empty_cnt == 0)
     return point{matrix[0].size(), matrix.size()};
@@ -61,8 +63,26 @@ inline auto select_empty_cell(std::vector<std::vector<cell_info>> const& matrix,
 }
 
 // Postcondition:
+//   - returns a point (x, y) that is empty cell
+//   - in case of no empty point is found nullopt is returned
+template <typename RandomGenerator>
+auto generate_fruit(snk::board const& board, RandomGenerator&& rand) {
+  return select_empty_cell(create_board_matrix(board),
+                           std::forward<RandomGenerator>(rand));
+}
+
+// Postcondition:
 //   - returns is_collided_to_self(board.snake)
 inline auto has_collision(snk::board const& board) {
   return is_collided_to_self(board.snake);
+}
+
+// Postcondition:
+//   - returns true if snake head is on fruit
+inline auto ate_fruit(snk::board const& board) {
+  return static_cast<std::size_t>(board.snake.head().x.value()) ==
+             board.fruit_pos.x &&
+         static_cast<std::size_t>(board.snake.head().y.value()) ==
+             board.fruit_pos.y;
 }
 }  // namespace snk
