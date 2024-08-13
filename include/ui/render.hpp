@@ -5,8 +5,13 @@
 #include "ui/window.hpp"
 
 namespace snk {
+
+struct ui_renderer {
+  ui_properties ui_prop;
+};
+
 template <ui::Window window_t>
-void render(window_t&, states::state const&, ui_properties const&) {
+void render(ui_renderer const&, states::state const&, window_t&) {
   // TODO: implement rendering
 }
 }  // namespace snk

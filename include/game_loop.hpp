@@ -2,7 +2,6 @@
 
 #include <chrono>
 #include "event_handler.hpp"
-#include "property.hpp"
 #include "state.hpp"
 #include "state_arithmetic.hpp"
 #include "ui/render.hpp"
@@ -11,7 +10,7 @@
 namespace snk::gameloop {
 template <ui::Window window_t, typename Random>
 void run(states::state state, window_t& win, event_handler const& handler,
-         ui_properties const& ui_prop, Random&& rand) {
+         ui_renderer const& renderer, Random&& rand) {
   auto prev_time = std::chrono::steady_clock::now();
   std::chrono::milliseconds const tick_threshold{32};  // 30 ticks per second
   std::chrono::milliseconds accumulated_time{0};
@@ -27,7 +26,7 @@ void run(states::state state, window_t& win, event_handler const& handler,
     while (accumulated_time >= tick_threshold) {
       state = after_time(tick_threshold, std::move(state), rand);
       accumulated_time -= tick_threshold;
-      render(win, state, ui_prop);
+      render(renderer, state, win);
     }
   }
 }
