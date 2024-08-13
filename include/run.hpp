@@ -10,15 +10,15 @@
 namespace snk {
 
 template <ui::Window window_t, typename Random>
-void run(game_properties prop, window_t& win, Random&& rand) {
+void run(app_properties prop, window_t& win, Random&& rand) {
   states::state state{states::init{}};
-  event_handler evt_handler{std::move(prop)};
-  gameloop::run(state, win, evt_handler, rand);
+  event_handler evt_handler{std::move(prop.game_properties)};
+  gameloop::run(state, win, evt_handler, prop.ui_properties, rand);
 }
 
 template <typename Random>
 void run(app_properties prop, Random&& rand) {
   ui::Window auto win = ui::make_window(prop);
-  run(std::move(prop.game_properties), win, rand);
+  run(std::move(prop), win, rand);
 }
 }  // namespace snk
