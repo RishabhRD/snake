@@ -2,12 +2,14 @@
 
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Image.hpp>
+#include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Window/Event.hpp>
 #include <cstddef>
+#include <iostream>
 #include <optional>
 #include <vector>
 #include "direction.hpp"
@@ -54,16 +56,12 @@ inline std::optional<events::event> transform_event(sf::Event const& evt) {
 class sfml_window {
   sf::RenderWindow win;
   sf::Color background;
-  sf::Image buffer;
-  sf::Texture texture;
 
  public:
   sfml_window(unsigned int width, unsigned int height, color bg,
               std::string_view title)
       : win(sf::VideoMode(width, height), title.data(), sf::Style::None),
         background(bg.r, bg.g, bg.b) {
-    buffer.create(width, height, background);
-    texture.loadFromImage(buffer);
     repaint();
   }
 
@@ -82,22 +80,26 @@ class sfml_window {
 
   inline std::size_t height() const { return win.getSize().y; }
 
-  void set_pixel_color(std::size_t x, std::size_t y, color c) {
-    buffer.setPixel(static_cast<unsigned int>(x), static_cast<unsigned int>(y),
-                    sf::Color(c.r, c.g, c.b));
-    texture.update(buffer);
+  void draw_square(std::size_t x, std::size_t y, std::size_t size, color c) {
+    sf::RectangleShape rect{
+        sf::Vector2f(static_cast<float>(size), static_cast<float>(size))};
+    rect.setPosition(static_cast<float>(x), static_cast<float>(y));
+    rect.setFillColor(sf::Color(c.r, c.g, c.b));
+    win.draw(rect);
   }
 
   bool draw_image(std::string_view path) {
-    return texture.loadFromFile(path.data());
+    sf::Texture texture;
+    sf::Sprite sprite;
+    auto res = texture.loadFromFile(path.data());
+    sprite.setTexture(texture);
+    win.draw(sprite);
+    return res;
   }
 
-  void repaint() {
-    win.clear(background);
-    sf::Sprite sprite{texture};
-    win.draw(sprite);
-    win.display();
-  }
+  void clear(color c) { win.clear(sf::Color{c.r, c.g, c.b}); }
+
+  void repaint() { win.display(); }
 };
 
 inline auto make_window(app_properties const& prop) {
