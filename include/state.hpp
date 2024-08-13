@@ -29,5 +29,15 @@ struct quit {
   friend constexpr bool operator==(quit const&, quit const&);
 };
 
-using state = std::variant<running, paused, init, quit>;
+struct lost {
+  running running_game;
+  friend constexpr bool operator==(lost const&, lost const&);
+};
+
+struct win {
+  running running_game;
+  friend constexpr bool operator==(win const&, win const&);
+};
+
+using state = std::variant<running, paused, init, quit, lost, win>;
 }  // namespace snk::states
