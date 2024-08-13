@@ -79,19 +79,19 @@ inline auto apply_direction(snk::states::running state) {
 
 // Postcondition:
 //   - Apply time passed effect on state
-//   - Then apply direction
-//   - If time passed effect suggests to move then move otherwise return same
-//     state
+//   - If time passed effect suggests to move then apply direction and move,
+//     otherwise return same state
 template <typename Random>
 snk::states::state try_move(snk::states::running state,
                             std::chrono::milliseconds time_passed,
                             Random&& rand) {
   auto to_move = apply_time_passed(state, time_passed);
-  state = apply_direction(std::move(state));
-  if (to_move)
+  if (to_move) {
+    state = apply_direction(std::move(state));
     return move(std::move(state), rand);
-  else
+  } else {
     return state;
+  }
 }
 
 // Precondition:
