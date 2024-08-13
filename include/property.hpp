@@ -13,4 +13,13 @@ struct game_properties {
   point<std::size_t> init_fruit_pos;
   snk::snake<mod_int> init_snake;
 };
+
+struct ui_properties {
+  std::size_t scale_factor;
+};
+
+struct app_properties {
+  snk::game_properties game_properties;
+  snk::ui_properties ui_properties;
+};
 }  // namespace snk

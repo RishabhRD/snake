@@ -2,7 +2,7 @@
 
 #include <variant>
 #include "event.hpp"
-#include "game_properties.hpp"
+#include "property.hpp"
 #include "state.hpp"
 #include "state_arithmetic.hpp"
 

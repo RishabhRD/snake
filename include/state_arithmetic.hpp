@@ -5,7 +5,7 @@
 #include "board_arithmetic.hpp"
 #include "direction.hpp"
 #include "functional.hpp"
-#include "game_properties.hpp"
+#include "property.hpp"
 #include "state.hpp"
 
 namespace snk {
