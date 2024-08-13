@@ -1,5 +1,6 @@
 #pragma once
 
+#include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Image.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
@@ -52,14 +53,16 @@ inline std::optional<events::event> transform_event(sf::Event const& evt) {
 
 class sfml_window {
   sf::RenderWindow win;
+  sf::Color background;
   sf::Image buffer;
   sf::Texture texture;
 
  public:
   sfml_window(unsigned int width, unsigned int height, color bg,
               std::string_view title)
-      : win(sf::VideoMode(width, height), title.data(), sf::Style::None) {
-    buffer.create(width, height, sf::Color{bg.r, bg.g, bg.b});
+      : win(sf::VideoMode(width, height), title.data(), sf::Style::None),
+        background(bg.r, bg.g, bg.b) {
+    buffer.create(width, height, background);
     texture.loadFromImage(buffer);
     repaint();
   }
@@ -85,7 +88,12 @@ class sfml_window {
     texture.update(buffer);
   }
 
+  bool draw_image(std::string_view path) {
+    return texture.loadFromFile(path.data());
+  }
+
   void repaint() {
+    win.clear(background);
     sf::Sprite sprite{texture};
     win.draw(sprite);
     win.display();
