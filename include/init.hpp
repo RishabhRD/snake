@@ -12,15 +12,15 @@ inline app_properties init_config(int argc, char** argv) {
   snake.grow(direction::right);
   snake.grow(direction::right);
   snk::game_properties game_properties{
-      .board_width = 30,
-      .board_height = 30,
+      .board_width = 20,
+      .board_height = 20,
       .init_speed = 8,
       .init_fruit_pos = {15, 15},
       .init_snake = std::move(snake),
   };
 
   snk::ui_properties ui_properties{
-      .scale_factor = 20,
+      .scale_factor = 30,
       .bg_color = ui::color{0, 0, 0},
       .head_color = ui::color{0, 0, 255},
       .body_color = ui::color{0, 255, 0},
