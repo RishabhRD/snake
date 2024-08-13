@@ -8,6 +8,7 @@ namespace snk::states {
 struct running {
   snk::board board;
   snk::direction cur_snake_dir;
+  snk::direction next_snake_dir;
   std::chrono::milliseconds time_since_last_move;
   std::size_t speed;
 
