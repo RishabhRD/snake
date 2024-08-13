@@ -2,10 +2,13 @@
 
 #include <variant>
 #include "event.hpp"
+#include "game_properties.hpp"
 #include "state.hpp"
 
 namespace snk {
 struct event_handler {
+  snk::game_properties game_properties;
+
   auto operator()(events::direction_change evt, states::running state) const {
     state.next_snake_dir = evt.direction;
     return state;
@@ -29,7 +32,8 @@ struct event_handler {
   auto operator()(auto, auto state) const { return state; }
 };
 
-inline auto process_event(events::event evt, states::state state) {
-  return std::visit<states::state>(event_handler{}, evt, std::move(state));
+inline auto process_event(event_handler const& handler, events::event evt,
+                          states::state state) {
+  return std::visit<states::state>(handler, evt, std::move(state));
 }
 }  // namespace snk
