@@ -8,14 +8,16 @@
 
 namespace snk {
 inline app_properties init_config(int argc, char** argv) {
-  snk::snake snake{point<mod_int>{{2, 30}, {15, 30}}};
+  auto const width = 20;
+  auto const height = 20;
+  snk::snake snake{point<mod_int>{{2, width}, {height / 2, height}}};
   snake.grow(direction::right);
   snake.grow(direction::right);
   snk::game_properties game_properties{
-      .board_width = 20,
-      .board_height = 20,
+      .board_width = width,
+      .board_height = height,
       .init_speed = 8,
-      .init_fruit_pos = {15, 15},
+      .init_fruit_pos = {width / 2, height / 2},
       .init_snake = std::move(snake),
   };
 
