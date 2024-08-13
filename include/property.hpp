@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstddef>
+#include <string_view>
 #include "mod_int.hpp"
 #include "point.hpp"
 #include "snake.hpp"
@@ -21,5 +22,6 @@ struct ui_properties {
 struct app_properties {
   snk::game_properties game_properties;
   snk::ui_properties ui_properties;
+  std::string_view title;
 };
 }  // namespace snk

@@ -24,6 +24,7 @@ inline app_properties init_config(int argc, char** argv) {
   return app_properties{
       .game_properties = std::move(game_properties),
       .ui_properties = {10},
+      .title = "Snake",
   };
 }
 }  // namespace snk
