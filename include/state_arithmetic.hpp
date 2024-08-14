@@ -29,15 +29,16 @@ inline bool apply_time_passed(states::running& state,
 // Postcondition:
 //   - if snake doesn't eat food, return false
 //   - if it eats, and this leads to winning position returns true
-//   - otherwise, update state with new fruit position and retrns false
+//   - otherwise, update state with new fruit position, grow and returns false
 template <typename Random>
 bool try_eat_fruit(snk::states::running& state, Random&& rand) {
   if (ate_fruit(state.board)) {
-    auto new_fruit_pos = generate_fruit(state.board, rand);
-    if (!new_fruit_pos.has_value())
+    if (state.board.snake.body().size() + 1 ==
+        state.board.width * state.board.height) {
       return true;
-    state.board.fruit_pos = *new_fruit_pos;
+    }
     state.board.snake.grow(state.cur_snake_dir);
+    state.board.fruit_pos = *generate_fruit(state.board, rand);
   }
   return false;
 }
