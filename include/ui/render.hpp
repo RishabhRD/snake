@@ -43,6 +43,16 @@ struct ui_renderer {
   }
 
   template <ui::Window window>
+  void operator()(states::win const& state, window& win) const {
+    (*this)(state.running_game, win);
+  }
+
+  template <ui::Window window>
+  void operator()(states::lost const& state, window& win) const {
+    (*this)(state.running_game, win);
+  }
+
+  template <ui::Window window>
   void operator()(auto const&, window&) const {}
 };
 
