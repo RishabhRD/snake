@@ -43,17 +43,15 @@ jobs:
 
     - name: Create ZIP Package
       run: |
-        mkdir -p snake-windows
-        tree bin/
-        cp bin/src/Release/snake.exe snake-windows/
-        cp -r data snake-windows/
-        powershell Compress-Archive -Path snake-windows/* -DestinationPath snake-windows.zip
+        mkdir -p binary/snake-windows
+        cp bin/src/Release/snake.exe binary/snake-windows/
+        cp -r data binary/snake-windows/
 
     - name: Upload Build Artifacts
       uses: actions/upload-artifact@v3
       with:
         name: snake-windows
-        path: snake-windows.zip
+        path: binary
 
   build-linux:
     runs-on: ubuntu-latest
@@ -89,13 +87,12 @@ jobs:
 
     - name: Create ZIP Package
       run: |
-        mkdir -p snake-linux
-        cp bin/src/snake snake-linux/
-        cp -r data snake-linux/
-        zip -r snake-linux.zip snake-linux/
+        mkdir -p binary/snake-linux
+        cp bin/src/snake binary/snake-linux/
+        cp -r data binary/snake-linux/
 
     - name: Upload Build Artifacts
       uses: actions/upload-artifact@v3
       with:
         name: snake-linux
-        path: snake-linux.zip
+        path: binary
