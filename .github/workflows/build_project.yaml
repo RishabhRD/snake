@@ -90,6 +90,7 @@ jobs:
         mkdir -p binary/snake-linux
         cp bin/src/snake binary/snake-linux/
         cp -r data binary/snake-linux/
+        chmod +x binary/snake-linux/snake
 
     - name: Upload Build Artifacts
       uses: actions/upload-artifact@v3
