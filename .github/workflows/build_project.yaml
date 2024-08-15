@@ -35,7 +35,6 @@ jobs:
 
     - name: Run Build Script
       run: |
-        tree /F /A
         cmake . -B './bin' -DCMAKE_TOOLCHAIN_FILE='./bin/conan_toolchain.cmake' -DCMAKE_BUILD_TYPE=Release
 
     - name: Build
@@ -44,6 +43,7 @@ jobs:
 
     - name: Create ZIP Package
       run: |
+        tree /F /A
         mkdir -p snake-windows
         tree bin/
         cp bin/src/snake.exe snake-windows/
@@ -53,7 +53,7 @@ jobs:
     - name: Upload Build Artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: snake-windows-zip
+        name: snake-windows
         path: snake-windows.zip
 
   build-linux:
@@ -98,5 +98,5 @@ jobs:
     - name: Upload Build Artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: snake-linux-zip
+        name: snake-linux
         path: snake-linux.zip
