@@ -28,11 +28,12 @@ jobs:
     - name: Run Install Dependencies Script
       run: |
         conan profile detect --force || true
-        ./update_package
+        conan install . -c tools.system.package_manager:mode=install --output-folder=bin --build=missing
 
     - name: Run Build Script
       run: |
-        ./build
+        cmake . -B bin -DCMAKE_TOOLCHAIN_FILE=bin/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
+        cmake --build bin
 
     - name: Create ZIP Package
       run: |
