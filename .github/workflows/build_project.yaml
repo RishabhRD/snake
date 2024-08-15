@@ -25,9 +25,12 @@ jobs:
     - name: Install CMake
       uses: jwlawson/actions-setup-cmake@v1
 
-    - name: Run Install Dependencies Script
+    - name: Detect Conan profile
       run: |
         conan profile detect --force || true
+
+    - name: Install Conan dependencies
+      run: |
         conan install . -c tools.system.package_manager:mode=install --output-folder=bin --build=missing
 
     - name: Run Build Script
@@ -69,9 +72,12 @@ jobs:
     - name: Install CMake
       uses: jwlawson/actions-setup-cmake@v1
 
-    - name: Run Install Dependencies Script
+    - name: Detect conan profile
       run: |
         conan profile detect --force || true
+
+    - name: Install Conan dependencies
+      run: |
         ./update_package
 
     - name: Run Build Script
