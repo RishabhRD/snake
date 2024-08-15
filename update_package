@@ -1,3 +1,3 @@
 #!/bin/sh
 
-conan install . -c tools.system.package_manager:mode=install --output-folder=bin --build=missing
+conan install . -c tools.system.package_manager:sudo=True -c tools.system.package_manager:mode=install --output-folder=bin --build=missing
