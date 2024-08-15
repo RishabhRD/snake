@@ -36,7 +36,7 @@ jobs:
     - name: Run Build Script
       run: |
         tree /F /A
-        cmake . -B bin -DCMAKE_TOOLCHAIN_FILE=./bin/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
+        cmake . -B ./bin -DCMAKE_TOOLCHAIN_FILE=./bin/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
         cmake --build bin
 
     - name: Create ZIP Package
