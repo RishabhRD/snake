@@ -12,40 +12,25 @@ jobs:
     - name: Checkout Code
       uses: actions/checkout@v4
 
-    - name: Install Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.x'
-
-    - name: Install Conan
+    - name: Install SFML
       run: |
-        python -m pip install --upgrade pip
-        pip install conan
-
-    - name: Install CMake
-      uses: jwlawson/actions-setup-cmake@v1
-
-    - name: Detect Conan profile
-      run: |
-        conan profile detect --force || true
-
-    - name: Install Conan dependencies
-      run: |
-        conan install . -c tools.system.package_manager:mode=install --output-folder=bin --build=missing
+        choco install sfml
 
     - name: Run Build Script
       run: |
-        tree /F /A
-        cmake . -B ./bin -DCMAKE_TOOLCHAIN_FILE=./bin/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
-        cmake --build bin
+        cmake . -B bin -DCMAKE_BUILD_TYPE=Release
+
+    - name: Build
+      run: |
+        cmake --build build --config Release
 
     - name: Create ZIP Package
       run: |
-        mkdir -p package
+        mkdir -p snake-windows
         tree bin/
-        cp bin/src/snake.exe package/
-        cp -r data package/
-        powershell Compress-Archive -Path package/* -DestinationPath snake-windows.zip
+        cp bin/src/snake.exe snake-windows/
+        cp -r data snake-windows/
+        powershell Compress-Archive -Path snake-windows/* -DestinationPath snake-windows.zip
 
     - name: Upload Build Artifacts
       uses: actions/upload-artifact@v3
@@ -87,11 +72,10 @@ jobs:
 
     - name: Create ZIP Package
       run: |
-        mkdir -p package
-        ls bin/src/
-        cp bin/src/snake package/
-        cp -r data package/
-        zip -r snake-linux.zip package/*
+        mkdir -p snake-linux
+        cp bin/src/snake snake-linux/
+        cp -r data snake-linux/
+        zip -r snake-linux.zip snake-linux/
 
     - name: Upload Build Artifacts
       uses: actions/upload-artifact@v3
