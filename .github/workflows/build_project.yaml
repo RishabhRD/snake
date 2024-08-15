@@ -27,7 +27,7 @@ jobs:
 
     - name: Run Install Dependencies Script
       run: |
-        conan profile default --detect || true
+        conan profile detect --force || true
         conan profile update settings.compiler.cppstd=20 default
         ./update_package
 
@@ -70,7 +70,7 @@ jobs:
 
     - name: Run Install Dependencies Script
       run: |
-        conan profile default --detect || true
+        conan profile detect --force || true
         conan profile update settings.compiler.cppstd=20 default
         ./update_package
 
