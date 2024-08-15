@@ -37,7 +37,7 @@ jobs:
     - name: Create ZIP Package
       run: |
         mkdir -p package
-        ls bin/src/
+        tree bin/
         cp bin/src/snake.exe package/
         cp -r data package/
         powershell Compress-Archive -Path package/* -DestinationPath snake-windows.zip
