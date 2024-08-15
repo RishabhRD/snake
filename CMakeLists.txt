@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.15)
 project(snake CXX)
 include(cmake/StandardProjectSettings.cmake)
-include(package.cmake)
 include(cmake/Sanitizers.cmake)
 include(cmake/CompilerWarnings.cmake)
 include(cmake/StaticAnalyzers.cmake)

@@ -1,3 +1,4 @@
+find_package(SFML REQUIRED)
 file(GLOB_RECURSE src_list "**.cpp")
 add_executable(snake ${src_list})
 target_include_directories(snake PRIVATE ../include)

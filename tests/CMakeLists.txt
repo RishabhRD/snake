@@ -1,3 +1,4 @@
+find_package(DOCTEST REQUIRED)
 file(GLOB_RECURSE test_list "*_test.cpp")
 add_executable(snake_tests ${test_list} "main.cpp")
 target_include_directories(snake_tests PRIVATE ../include)
