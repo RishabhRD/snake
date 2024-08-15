@@ -1,4 +1,4 @@
-name: Cross-Platform Build with Conan and Custom Scripts
+name: Build Binary for different Platforms
 
 on:
   push:
@@ -37,6 +37,7 @@ jobs:
     - name: Create ZIP Package
       run: |
         mkdir -p package
+        ls bin/src/
         cp bin/src/snake.exe package/
         cp -r data package/
         powershell Compress-Archive -Path package/* -DestinationPath snake-windows.zip
@@ -79,6 +80,7 @@ jobs:
     - name: Create ZIP Package
       run: |
         mkdir -p package
+        ls bin/src/
         cp bin/src/snake package/
         cp -r data package/
         zip -r snake-linux.zip package/*
