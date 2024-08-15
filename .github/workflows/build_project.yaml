@@ -12,17 +12,35 @@ jobs:
     - name: Checkout Code
       uses: actions/checkout@v4
 
-    - name: Install SFML
+    - name: Install Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+
+    - name: Install Conan
       run: |
-        choco install sfml
+        python -m pip install --upgrade pip
+        pip install conan
+
+    - name: Install CMake
+      uses: jwlawson/actions-setup-cmake@v1
+
+    - name: Detect Conan profile
+      run: |
+        conan profile detect --force || true
+
+    - name: Install Conan dependencies
+      run: |
+        conan install . -c tools.system.package_manager:mode=install --output-folder=bin --build=missing
 
     - name: Run Build Script
       run: |
-        cmake . -B bin -DCMAKE_BUILD_TYPE=Release
+        tree /F /A
+        cmake . -B './bin' -DCMAKE_TOOLCHAIN_FILE='./bin/conan_toolchain.cmake' -DCMAKE_BUILD_TYPE=Release
 
     - name: Build
       run: |
-        cmake --build build --config Release
+        cmake --build bin --config Release
 
     - name: Create ZIP Package
       run: |
