@@ -1,0 +1,92 @@
+name: Cross-Platform Build with Conan and Custom Scripts
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Install Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+
+    - name: Install Conan
+      run: |
+        python -m pip install --upgrade pip
+        pip install conan
+
+    - name: Install CMake
+      uses: jwlawson/actions-setup-cmake@v1
+
+    - name: Run Install Dependencies Script
+      run: |
+        conan profile new default --detect || true
+        conan profile update settings.compiler.cppstd=20 default
+        ./update_package
+
+    - name: Run Build Script
+      run: |
+        ./build
+
+    - name: Create ZIP Package
+      run: |
+        mkdir -p package
+        cp bin/src/snake.exe package/
+        cp -r data package/
+        powershell Compress-Archive -Path package/* -DestinationPath snake-windows.zip
+
+    - name: Upload Build Artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: snake-windows-zip
+        path: snake-windows.zip
+
+  build-linux:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Install Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+
+    - name: Install Conan
+      run: |
+        python -m pip install --upgrade pip
+        pip install conan
+
+    - name: Install CMake
+      uses: jwlawson/actions-setup-cmake@v1
+
+    - name: Run Install Dependencies Script
+      run: |
+        conan profile new default --detect || true
+        conan profile update settings.compiler.cppstd=20 default
+        ./update_package
+
+    - name: Run Build Script
+      run: |
+        ./build
+
+    - name: Create ZIP Package
+      run: |
+        mkdir -p package
+        cp bin/src/snake package/
+        cp -r data package/
+        zip -r snake-linux.zip package/*
+
+    - name: Upload Build Artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: snake-linux-zip
+        path: snake-linux.zip
