@@ -26,6 +26,7 @@ I wanted the game to be highly testable... That's it.
 ## Motivations
 
 - Design by contract (SEAN PARENT and DAVE ABRAHAMS)
+- Generic Programming (ALEX STEPANOV)
 - Value semantics + No inheritance (SEAN PARENT)
 - Polymorphic usecase with value semantics (SEAN PARENT)
 - Saperation of View and Model (My experience of writing bad programs)
